@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>店小幫・方案價格</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+/* 方案價格頁：與首頁同一套品牌色。首屏＋月繳/年繳切換 → 方案卡 → 所有方案都包含 → 加購模組 → 繳費問答 → 聯絡 */
+:root {
+  --bg: #F5F6FA; --surface: #FFFFFF; --ink: #1D2140; --text: #3A3F5C; --muted: #6B7090; --line: #E1E4EF;
+  --brand: #3C44C8; --brand-soft: #E8E9FB; --nail: #D6457A; --nail-soft: #FFE8F0; --soon: #138A7A; --soon-soft: #E2F4F1;
+  --save: #B4232F; --save-soft: #FDECEE;
+  --display: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  --latin: "Nunito", "Noto Sans TC", sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12142A; --surface: #1C1F3A; --ink: #F1F2FA; --text: #C9CCE2; --muted: #9A9EBE; --line: #2E3254;
+    --brand: #8F95FF; --brand-soft: #262A55; --nail: #FF8DB4; --nail-soft: #3A2033; --soon: #5CD3C0; --soon-soft: #173533;
+    --save: #FF8A93; --save-soft: #3A1E24; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12142A; --surface: #1C1F3A; --ink: #F1F2FA; --text: #C9CCE2; --muted: #9A9EBE; --line: #2E3254;
+  --brand: #8F95FF; --brand-soft: #262A55; --nail: #FF8DB4; --nail-soft: #3A2033; --soon: #5CD3C0; --soon-soft: #173533;
+  --save: #FF8A93; --save-soft: #3A1E24; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--display); font-size: 17px; line-height: 1.7; -webkit-font-smoothing: antialiased; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+h1, h2, h3 { color: var(--ink); text-wrap: balance; margin: 0; font-weight: 900; line-height: 1.25; }
+p { margin: 0; }
+a { color: inherit; }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--brand); outline-offset: 3px; border-radius: 8px; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; }
+section { padding-block: 72px; }
+.eyebrow { font-size: 14px; font-weight: 700; letter-spacing: .12em; color: var(--brand); margin-bottom: 12px; }
+.sec-head { display: grid; gap: 12px; max-width: 640px; margin-bottom: 36px; }
+.sec-head h2 { font-size: clamp(26px, 3.6vw, 36px); }
+.sec-head p { color: var(--muted); }
+.num { font-family: var(--latin); font-variant-numeric: tabular-nums; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 24px; border-radius: 999px; font-weight: 800; font-size: 16px; text-decoration: none; border: 2px solid transparent; transition: transform .15s ease; }
+.btn:hover { transform: translateY(-1px); }
+.btn-main { background: var(--ink); color: var(--bg); }
+.btn-ghost { border-color: var(--line); color: var(--ink); background: var(--surface); }
+
+header { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.nav { display: flex; align-items: center; gap: 28px; min-height: 68px; }
+.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); font-weight: 900; font-size: 21px; }
+.nav-links { display: flex; gap: 24px; margin-left: auto; }
+.nav-links a { text-decoration: none; color: var(--muted); font-weight: 700; font-size: 15px; }
+.nav-links a[aria-current="page"], .nav-links a:hover { color: var(--ink); }
+.nav .btn { min-height: 42px; padding: 0 18px; font-size: 15px; }
+
+/* 首屏與切換 */
+.hero { padding-block: 64px 24px; text-align: center; }
+.hero h1 { font-size: clamp(34px, 5vw, 52px); }
+.hero p { color: var(--muted); margin: 16px auto 0; max-width: 36em; font-size: 18px; }
+.toggle { display: inline-flex; gap: 4px; padding: 5px; margin-top: 32px; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; }
+.toggle button { font: inherit; border: 0; cursor: pointer; padding: 10px 22px; border-radius: 999px; background: transparent; color: var(--muted); font-weight: 800; font-size: 16px; display: inline-flex; align-items: center; gap: 8px; }
+.toggle button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.save-tag { font-size: 12px; font-weight: 800; padding: 2px 8px; border-radius: 999px; background: var(--save-soft); color: var(--save); }
+.toggle button[aria-pressed="true"] .save-tag { background: var(--save); color: #FFFFFF; }
+
+/* 方案卡 */
+.cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; align-items: start; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 28px; padding: 32px 28px; display: flex; flex-direction: column; gap: 18px; min-width: 0; position: relative; }
+.card.pop { border: 2px solid var(--nail); }
+.pop-tag { position: absolute; top: -14px; left: 28px; background: var(--nail); color: #FFFFFF; font-size: 13px; font-weight: 800; padding: 4px 14px; border-radius: 999px; }
+.card h3 { font-size: 24px; }
+.card .who { color: var(--muted); font-size: 15px; margin-top: 4px; }
+.price { display: grid; gap: 4px; min-height: 118px; align-content: start; }
+.was { font-size: 15px; color: var(--muted); }
+.was s { font-family: var(--latin); }
+.now { font-family: var(--latin); font-size: 46px; font-weight: 900; color: var(--ink); line-height: 1.1; font-variant-numeric: tabular-nums; }
+.now small { font-family: var(--display); font-size: 16px; font-weight: 500; color: var(--muted); }
+.per { font-size: 14px; color: var(--muted); }
+.saved { justify-self: start; font-size: 13px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: var(--save-soft); color: var(--save); }
+.cta { display: grid; gap: 10px; }
+.feats { list-style: none; margin: 0; padding: 18px 0 0; border-top: 1px dashed var(--line); display: grid; gap: 10px; font-size: 15px; }
+.feats li { display: flex; gap: 10px; }
+.feats svg { width: 18px; height: 18px; flex: none; margin-top: 4px; color: var(--nail); }
+.feats .head { font-weight: 800; color: var(--ink); }
+.card.custom { background: transparent; border: 2px dashed var(--line); }
+.card.custom .now { font-size: 32px; }
+.note { margin-top: 20px; color: var(--muted); font-size: 14px; text-align: center; }
+
+/* 所有方案都包含 */
+.incl { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.inc { background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 22px; display: grid; gap: 6px; align-content: start; }
+.inc svg { width: 26px; height: 26px; color: var(--brand); }
+.inc h3 { font-size: 17px; margin-top: 4px; }
+.inc p { font-size: 14px; color: var(--muted); }
+
+/* 加購模組 */
+.addons { display: grid; gap: 12px; }
+.addon { background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 22px 26px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.addon-main { flex: 1 1 320px; min-width: 0; display: grid; gap: 4px; }
+.addon-main h3 { font-size: 18px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.addon-main p { font-size: 15px; color: var(--muted); }
+.tag { font-size: 12px; font-weight: 800; padding: 3px 10px; border-radius: 999px; }
+.tag-soon { background: var(--soon-soft); color: var(--soon); }
+.tag-plan { background: var(--brand-soft); color: var(--brand); }
+.addon .btn { min-height: 44px; font-size: 15px; }
+
+/* 問答 */
+.faq { display: grid; gap: 12px; max-width: 820px; }
+.faq details { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 4px 22px; }
+.faq summary { cursor: pointer; font-weight: 800; color: var(--ink); padding: 16px 0; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; font-family: var(--latin); font-size: 22px; line-height: 1; color: var(--muted); }
+.faq details[open] summary::after { content: "−"; }
+.faq details p { padding-bottom: 18px; color: var(--muted); font-size: 15px; }
+
+.contact { background: var(--ink); color: var(--bg); border-radius: 32px; padding: 48px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+.contact h2 { color: var(--bg); font-size: clamp(24px, 3.4vw, 34px); }
+.contact p { opacity: .8; margin-top: 8px; }
+.contact .btn { background: var(--bg); color: var(--ink); }
+footer { padding-block: 32px 48px; color: var(--muted); font-size: 14px; }
+.foot { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; border-top: 1px solid var(--line); padding-top: 24px; }
+
+@media (max-width: 960px) {
+  .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .incl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nav-links { display: none; }
+  .nav .btn { margin-left: auto; }
+}
+@media (max-width: 620px) {
+  .cards, .incl { grid-template-columns: 1fr; }
+  .contact { padding: 32px 24px; }
+  .toggle button { padding: 10px 16px; }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="./" aria-label="店小幫 首頁">
+      <svg width="34" height="34" viewBox="0 0 120 120" aria-hidden="true"><rect x="10" y="10" width="46" height="46" rx="14" fill="var(--ink)"/><rect x="64" y="10" width="46" height="46" rx="23" fill="#FF5C8D"/><rect x="10" y="64" width="46" height="46" rx="14" fill="var(--soon)"/><rect x="66.5" y="66.5" width="41" height="41" rx="12" fill="none" stroke="var(--ink)" stroke-width="7" stroke-dasharray="9 7"/><path d="M87 78 V96 M78 87 H96" stroke="var(--ink)" stroke-width="7" stroke-linecap="round"/></svg>
+      店小幫
+    </a>
+    <nav class="nav-links" aria-label="主選單">
+      <a href="./#modules">模組</a>
+      <a href="./#nail">美甲美睫預約</a>
+      <a href="pricing.html" aria-current="page">價格</a>
+      <a href="./#faq">常見問題</a>
+    </nav>
+    <a class="btn btn-main js-line" href="https://lin.ee/YuJ1o0n" target="_blank" rel="noopener">加 LINE 諮詢</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">方案價格</p>
+      <h1>小店也負擔得起的預約系統</h1>
+      <p>功能全部都能用，差別只在設計師人數。先免費試用 14 天，覺得好用再繳費。</p>
+      <div class="toggle" role="group" aria-label="繳費週期">
+        <button type="button" id="t-year" aria-pressed="true" data-period="year">年繳 <span class="save-tag">送 2 個月</span></button>
+        <button type="button" id="t-month" aria-pressed="false" data-period="month">月繳</button>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top: 24px">
+    <div class="wrap">
+      <div class="cards">
+        <article class="card">
+          <div><h3>個人工作室</h3><p class="who">一個人經營的美甲、美睫師</p></div>
+          <div class="price" data-plan="solo"></div>
+          <div class="cta">
+            <a class="btn btn-main js-line" href="https://lin.ee/YuJ1o0n" target="_blank" rel="noopener">免費試用 14 天</a>
+          </div>
+          <ul class="feats">
+            <li class="head">1 位設計師</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>LINE 線上預約、自動排時段</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>線上收訂金，減少爽約</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>預約確認、前一天自動提醒</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>客人紀錄與作品照片</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>營收報表</li>
+          </ul>
+        </article>
+
+        <article class="card pop">
+          <span class="pop-tag">多人店家首選</span>
+          <div><h3>小店</h3><p class="who">有 2–5 位設計師的店</p></div>
+          <div class="price" data-plan="studio"></div>
+          <div class="cta">
+            <a class="btn btn-main js-line" href="https://lin.ee/YuJ1o0n" target="_blank" rel="noopener">免費試用 14 天</a>
+          </div>
+          <ul class="feats">
+            <li class="head">最多 5 位設計師</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>個人工作室的所有功能</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>客人可以指定設計師</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>每位設計師各自的班表</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>設計師業績統計</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>營收只有店長看得到</li>
+          </ul>
+        </article>
+
+        <article class="card custom">
+          <div><h3>多店・客製</h3><p class="who">超過 5 位設計師，或有好幾間分店</p></div>
+          <div class="price">
+            <p class="now">歡迎洽詢</p>
+            <p class="per">依人數與需求報價</p>
+          </div>
+          <div class="cta">
+            <a class="btn btn-ghost js-line" href="https://lin.ee/YuJ1o0n" target="_blank" rel="noopener">加 LINE 聊聊</a>
+          </div>
+          <ul class="feats">
+            <li class="head">小店的所有功能，再加上</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>設計師人數依需求調整</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>一起討論你需要的功能</li>
+          </ul>
+        </article>
+      </div>
+      <p class="note">價格為新台幣。用 ATM 轉帳或超商代碼繳費，不用綁信用卡，也不會自動扣款。</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">所有方案都包含</p>
+        <h2>不分方案，功能全部打開</h2>
+      </div>
+      <div class="incl">
+        <div class="inc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4M16 2v4M3 10h18"/></svg><h3>LINE 線上預約</h3><p>客人不用下載 App，只顯示還空著的時段。</p></div>
+        <div class="inc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20M6 15h4"/></svg><h3>收訂金</h3><p>客人自行轉帳免手續費，或接綠界用信用卡、超商付款。</p></div>
+        <div class="inc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21a2 2 0 0 0 4 0"/></svg><h3>自動通知</h3><p>預約確認、前一天提醒，自動發到客人的 LINE。</p></div>
+        <div class="inc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M8 7h6M8 11h6"/></svg><h3>客人紀錄</h3><p>捲度、色號、作品照片、過敏備註都記著。</p></div>
+        <div class="inc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><h3>時段自己設定</h3><p>15、30、60 分鐘一格，營業時間、公休隨時改。</p></div>
+        <div class="inc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><h3>營收報表</h3><p>本月營收、熱門服務、沒收訂金自動算好。</p></div>
+        <div class="inc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0"/><path d="M17 4l4 4M21 4l-4 4"/></svg><h3>客人管理</h3><p>完整消費紀錄、累積消費、標籤分類，回頭客一查就懂。</p></div>
+        <div class="inc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M3 10h18M9 4v17"/></svg><h3>日／週行事曆</h3><p>一天的細節或一整週的排程，切換著看。</p></div>
+        <div class="inc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3a3 3 0 0 0 0 6v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a3 3 0 0 0 0-6z"/><path d="M10 9h4M10 15h4"/></svg><h3>優惠券與生日券</h3><p>折扣碼、壽星優惠，生日當月自動用 LINE 送出。</p></div>
+        <div class="inc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 17c2-3 3 1 5-1s2 1 3 1"/></svg><h3>同意書線上簽署</h3><p>客人預約時手寫簽名，簽署紀錄隨時查。</p></div>
+        <div class="inc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg><h3>陪你接好 LINE</h3><p>LINE 官方帳號和綠界的設定，我們一步一步陪你完成。</p></div>
+        <div class="inc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M11 18h2"/></svg><h3>手機就能管理</h3><p>後台在 LINE 裡打開，不用另外記網址和密碼。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">加購模組</p>
+        <h2>之後需要更多，再加上去</h2>
+        <p>這些模組正在開發中。想搶先使用，或有其他需求，歡迎直接告訴我們。</p>
+      </div>
+      <div class="addons">
+        <div class="addon">
+          <div class="addon-main"><h3>更多行業的預約 <span class="tag tag-soon">即將推出</span></h3><p>美髮、按摩、寵物美容、課程教室，一樣在 LINE 上預約、收訂金。</p></div>
+          <a class="btn btn-ghost js-line" href="https://lin.ee/YuJ1o0n" target="_blank" rel="noopener">搶先登記</a>
+        </div>
+        <div class="addon">
+          <div class="addon-main"><h3>集點與儲值 <span class="tag tag-plan">規劃中</span></h3><p>客人在 LINE 累積點數、購買課程套票，提高回訪。</p></div>
+          <a class="btn btn-ghost js-line" href="https://lin.ee/YuJ1o0n" target="_blank" rel="noopener">告訴我們需求</a>
+        </div>
+        <div class="addon">
+          <div class="addon-main"><h3>你的店需要的功能 <span class="tag tag-plan">由你決定</span></h3><p>說說你每天最麻煩的事，我們優先開發大家最需要的模組。</p></div>
+          <a class="btn btn-ghost js-line" href="https://lin.ee/YuJ1o0n" target="_blank" rel="noopener">提出需求</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">繳費問答</p>
+        <h2>關於價格與繳費</h2>
+      </div>
+      <div class="faq">
+        <details><summary>要怎麼繳費？</summary><p>在管理主控台選好方案，系統會給你一組 ATM 轉帳帳號或超商繳費代碼，繳完幾分鐘內自動開通，不用綁信用卡。</p></details>
+        <details><summary>年繳怎麼算？</summary><p>年繳只收 10 個月的錢，可以用 12 個月。個人工作室一年 $5,900，小店一年 $9,900。</p></details>
+        <details><summary>提早繳費會少算天數嗎？</summary><p>不會。繳費後，使用期限是從原本的到期日往後延，提早繳不會吃虧。</p></details>
+        <details><summary>忘記繳費會怎樣？</summary><p>到期前 7 天、3 天和當天，都會用 LINE 提醒你。到期後還有 5 天可以補繳，超過才會暫停線上預約，資料都會保留，繳費後立刻恢復。</p></details>
+        <details><summary>店裡人變多了，可以換方案嗎？</summary><p>可以。下次繳費時直接選「小店」方案就好；人數超過 5 位，加 LINE 跟我們聊聊。</p></details>
+        <details><summary>還有其他費用嗎？</summary><p>LINE 官方帳號的訊息費用，以及客人付訂金的綠界手續費，是依 LINE 和綠界的規定由店家支付，不包含在月費裡。</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top: 0">
+    <div class="wrap">
+      <div class="contact">
+        <div>
+          <h2>還在考慮？先試用 14 天</h2>
+          <p>加 LINE 告訴我們你的店型，我們陪你把預約系統接好。</p>
+        </div>
+        <a class="btn js-line" href="https://lin.ee/YuJ1o0n" target="_blank" rel="noopener">加 LINE 諮詢</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot"><span>© 2026 店小幫</span><span>LINE ID：@853ptiqc</span></div>
+</footer>
+
+<script>
+// 價格表：改價格只要改這裡
+const PLANS = { solo: 590, studio: 990 };
+const fmt = (n) => '$' + n.toLocaleString('en-US');
+
+function render(period) {
+  document.querySelectorAll('.toggle button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.period === period)));
+  document.querySelectorAll('.price[data-plan]').forEach((el) => {
+    const m = PLANS[el.dataset.plan];
+    if (period === 'year') {
+      const year = m * 10;
+      el.innerHTML =
+        '<p class="was">原價 <s>' + fmt(m * 12) + '</s></p>' +
+        '<p class="now">' + fmt(year) + '<small> ／年</small></p>' +
+        '<p class="per">平均每月 ' + fmt(Math.round(year / 12)) + '</p>' +
+        '<span class="saved">省 ' + fmt(m * 2) + '</span>';
+    } else {
+      el.innerHTML =
+        '<p class="was">&nbsp;</p>' +
+        '<p class="now">' + fmt(m) + '<small> ／月</small></p>' +
+        '<p class="per">改年繳，每年省 ' + fmt(m * 2) + '</p>';
+    }
+  });
+}
+document.querySelectorAll('.toggle button').forEach((b) => b.addEventListener('click', () => render(b.dataset.period)));
+render('year');
+</script>
+</body>
+</html>

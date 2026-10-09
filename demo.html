@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>小花美甲美睫・預約展示</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+/* 粉嫩甜美風：與正式系統同一套顏色。手機寬度單欄，上方切換「客人 / 店家」，下方固定操作列 */
+:root {
+  --base: #FFF5F7;
+  --surface: #FFFFFF;
+  --text: #4A3540;
+  --muted: #9A7F8B;
+  --line: #F6D9E2;
+  --pink: #FF8FAB;
+  --pink-soft: #FFE4EC;
+  --accent: #D6457A;
+  --grad: linear-gradient(135deg, #FF9BB5 0%, #E0578A 100%);
+  --ok-bg: #E3F6EE; --ok: #0F6E56;
+  --warn-bg: #FFF3DC; --warn: #8A5300;
+  --bad-bg: #FDECEE; --bad: #B4233C;
+  --font: "Nunito", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body { background: var(--base); color: var(--text); font-family: var(--font); font-size: 16px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid rgba(255,143,171,.6); outline-offset: 2px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+.wrap { max-width: 480px; margin: 0 auto; padding-inline: 16px; padding-block: 0 140px; }
+
+/* 展示提示＋切換 */
+.ribbon { background: var(--grad); color: #fff; text-align: center; font-size: 13px; font-weight: 700; padding: 8px 16px; letter-spacing: .02em; }
+.switch { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--base); padding-block: 12px 10px; }
+.seg { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; background: var(--surface); border-radius: 999px; box-shadow: 0 4px 16px rgba(214,112,146,.12); }
+.seg button { padding: 10px 0; border-radius: 999px; font-weight: 800; color: var(--muted); font-size: 15px; }
+.seg button.on { background: var(--grad); color: #fff; }
+
+/* 共用 */
+.shop { display: flex; align-items: center; gap: 12px; margin: 8px 0 18px; }
+.logo { width: 48px; height: 48px; border-radius: 50%; background: var(--grad); color: #fff; display: grid; place-items: center; font-weight: 900; font-size: 20px; flex: none; }
+.shop h1 { font-size: 20px; font-weight: 900; }
+.muted { color: var(--muted); font-size: 14px; }
+.card { background: var(--surface); border-radius: 22px; padding: 16px 18px; box-shadow: 0 6px 20px rgba(214,112,146,.08); }
+.sec-title { font-size: 17px; font-weight: 900; margin: 24px 0 10px; display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.sec-title small { font-size: 13px; color: var(--muted); font-weight: 600; }
+.stack { display: grid; gap: 10px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { padding: 8px 14px; border-radius: 999px; background: var(--surface); border: 1.5px solid var(--line); font-size: 14px; font-weight: 700; color: var(--muted); }
+.chip.on { background: var(--pink-soft); border-color: var(--pink); color: var(--accent); }
+.chip:disabled { opacity: .45; cursor: default; }
+.btn { display: block; width: 100%; padding: 15px 20px; border-radius: 999px; background: var(--grad); color: #fff; font-weight: 900; font-size: 17px; box-shadow: 0 8px 20px rgba(224,87,138,.28); }
+.btn:disabled { opacity: .45; box-shadow: none; cursor: default; }
+.btn-line { display: inline-block; padding: 10px 18px; border-radius: 999px; background: var(--surface); border: 1.5px solid var(--pink); color: var(--accent); font-weight: 800; font-size: 15px; }
+.btn-line.bad { border-color: #F3B0B8; color: var(--bad); }
+.btn-text { padding: 8px 4px; color: var(--muted); font-weight: 700; font-size: 15px; }
+.input { width: 100%; min-height: 48px; padding: 10px 16px; border: 1.5px solid var(--line); border-radius: 16px; background: var(--surface); color: var(--text); font: inherit; font-size: 16px; }
+.input:focus { outline: none; border-color: var(--pink); box-shadow: 0 0 0 4px var(--pink-soft); }
+label.f { display: grid; gap: 6px; font-weight: 800; font-size: 14px; }
+.num { font-variant-numeric: tabular-nums; }
+.bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 15; max-width: 480px; margin: 0 auto; padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px)); background: var(--surface); border-radius: 26px 26px 0 0; box-shadow: 0 -6px 22px rgba(214,112,146,.14); }
+.bar-sum { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; font-size: 14px; color: var(--muted); }
+.bar-sum strong { color: var(--accent); font-size: 20px; font-weight: 900; }
+.note { background: #FFF8FA; border: 1.5px dashed var(--pink); border-radius: 16px; padding: 12px 14px; font-size: 14px; }
+
+/* 客人：步驟 */
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 6px; }
+.steps div { text-align: center; font-size: 12px; font-weight: 800; color: var(--muted); }
+.steps div::before { content: ""; display: block; height: 5px; border-radius: 3px; background: var(--line); margin-bottom: 6px; }
+.steps div.on { color: var(--accent); }
+.steps div.on::before { background: var(--grad); }
+.svc { display: flex; gap: 12px; align-items: center; width: 100%; text-align: left; padding: 14px 16px; border-radius: 20px; background: var(--surface); border: 2px solid transparent; box-shadow: 0 4px 14px rgba(214,112,146,.07); }
+.svc.on { border-color: var(--pink); background: #FFF9FB; }
+.svc-main { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.svc-main strong { font-weight: 900; }
+.svc-price { font-weight: 900; color: var(--accent); white-space: nowrap; }
+.dot { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--line); flex: none; display: grid; place-items: center; }
+.svc.on .dot { border-color: var(--accent); background: var(--accent); }
+.svc.on .dot::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #fff; }
+.days { display: flex; gap: 8px; overflow-x: auto; padding: 4px 2px 10px; scrollbar-width: none; }
+.days::-webkit-scrollbar { display: none; }
+.day { flex: none; width: 58px; padding: 10px 0; border-radius: 18px; background: var(--surface); border: 1.5px solid var(--line); display: grid; justify-items: center; gap: 2px; }
+.day b { font-size: 19px; font-weight: 900; }
+.day span { font-size: 12px; color: var(--muted); font-weight: 700; }
+.day.on { background: var(--grad); border-color: transparent; color: #fff; }
+.day.on span { color: #fff; }
+.day:disabled { opacity: .4; cursor: default; }
+.times { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.time { padding: 11px 0; border-radius: 14px; background: var(--surface); border: 1.5px solid var(--line); font-weight: 800; font-variant-numeric: tabular-nums; }
+.time.on { background: var(--pink-soft); border-color: var(--pink); color: var(--accent); }
+.kv { display: grid; gap: 8px; margin: 0; }
+.kv div { display: flex; gap: 12px; }
+.kv dt { flex: none; width: 64px; color: var(--muted); font-size: 14px; }
+.kv dd { margin: 0; font-weight: 700; min-width: 0; overflow-wrap: anywhere; }
+.pay-box { text-align: center; display: grid; gap: 12px; padding: 26px 20px; }
+.pay-amt { font-size: 38px; font-weight: 900; color: var(--accent); font-variant-numeric: tabular-nums; }
+.done-icon { width: 76px; height: 76px; border-radius: 50%; background: var(--grad); margin: 10px auto 4px; display: grid; place-items: center; box-shadow: 0 10px 26px rgba(224,87,138,.3); }
+.msg { background: #F3F5F8; border-radius: 20px; padding: 14px 16px; font-size: 14px; display: grid; gap: 4px; }
+.msg b { font-weight: 900; }
+
+/* 店家後台 */
+.tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 15; max-width: 480px; margin: 0 auto; display: flex; gap: 6px; padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px)); background: var(--surface); border-radius: 26px 26px 0 0; box-shadow: 0 -6px 22px rgba(214,112,146,.14); }
+.tab { flex: 1; padding: 11px 0; border-radius: 999px; font-weight: 800; color: var(--muted); font-size: 15px; }
+.tab.on { background: var(--pink-soft); color: var(--accent); }
+.bk { padding: 0; overflow: hidden; }
+.bk-head { display: flex; align-items: center; gap: 12px; width: 100%; padding: 14px 16px; text-align: left; }
+.bk-time { width: 56px; flex: none; padding: 6px 0; border-radius: 14px; background: var(--pink-soft); text-align: center; display: grid; font-variant-numeric: tabular-nums; }
+.bk-time strong { color: var(--accent); font-weight: 900; }
+.bk-time span { font-size: 12px; color: var(--muted); }
+.bk-main { flex: 1; min-width: 0; display: grid; }
+.bk-main strong { font-weight: 900; }
+.bk-main span { color: var(--muted); font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bk-body { padding: 14px 16px 16px; border-top: 1px dashed var(--line); display: grid; gap: 14px; }
+.bk.dim { opacity: .55; }
+.new { font-size: 11px; font-weight: 900; color: #fff; background: var(--grad); padding: 1px 8px; border-radius: 999px; margin-left: 6px; vertical-align: 2px; }
+.pill { flex: none; padding: 4px 11px; border-radius: 999px; font-size: 12px; font-weight: 900; }
+.p-pending { background: var(--warn-bg); color: var(--warn); }
+.p-confirmed { background: var(--pink-soft); color: var(--accent); }
+.p-completed { background: var(--ok-bg); color: var(--ok); }
+.p-cancelled, .p-no_show { background: var(--bad-bg); color: var(--bad); }
+.acts { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.row { display: flex; gap: 10px; align-items: center; }
+.row .input { flex: 1; }
+.row .btn-text, .row .btn-line { flex: none; white-space: nowrap; }
+.row .btn-text { padding-inline: 10px 6px; }
+.hours { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 0; border-bottom: 1px dashed var(--line); }
+.hours:last-child { border-bottom: 0; }
+.hours select { width: 84px; min-height: 40px; padding: 6px 8px; border-radius: 12px; }
+.toggle { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; cursor: pointer; }
+.toggle input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.track { width: 46px; height: 28px; border-radius: 14px; background: var(--line); position: relative; flex: none; transition: background .15s; }
+.track::after { content: ""; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; box-shadow: 0 2px 6px rgba(74,53,64,.18); transition: transform .15s; }
+.toggle input:checked + .track { background: var(--grad); }
+.toggle input:checked + .track::after { transform: translateX(18px); }
+.toggle input:focus-visible + .track { outline: 3px solid rgba(255,143,171,.6); outline-offset: 2px; }
+.hero { text-align: center; background: linear-gradient(135deg, #FFE1E9 0%, #FFFFFF 100%); padding: 22px 18px; }
+.hero-v { font-size: 38px; font-weight: 900; color: var(--accent); font-variant-numeric: tabular-nums; margin: 2px 0; }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.stat { display: grid; justify-items: center; padding: 14px 6px; }
+.stat b { font-size: 24px; font-weight: 900; font-variant-numeric: tabular-nums; }
+.rank { list-style: none; margin: 0; padding: 4px 18px; }
+.rank li { padding: 12px 0; border-bottom: 1px dashed var(--line); display: grid; gap: 6px; }
+.rank li:last-child { border-bottom: 0; }
+.rank-top { display: flex; gap: 10px; align-items: baseline; }
+.rank-top span:first-child { flex: 1; font-weight: 800; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rank-top strong { color: var(--accent); font-weight: 900; font-variant-numeric: tabular-nums; }
+.meter { height: 6px; border-radius: 3px; background: var(--pink-soft); overflow: hidden; }
+.meter i { display: block; height: 100%; background: var(--grad); border-radius: 3px; }
+.toast { position: fixed; left: 50%; bottom: 110px; transform: translateX(-50%); z-index: 30; background: var(--text); color: #fff; padding: 10px 18px; border-radius: 999px; font-weight: 700; font-size: 14px; white-space: nowrap; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+@media (max-width: 370px) { .times { grid-template-columns: repeat(3, 1fr); } .hours select { width: 72px; } }
+</style>
+</head>
+<body>
+<div class="ribbon">展示版：資料都是範例，不會真的預約、也不會扣款</div>
+<div class="wrap">
+  <div class="switch">
+    <div class="seg" role="tablist" aria-label="切換畫面">
+      <button id="mode-book" data-act="mode" data-v="book" role="tab">客人預約頁</button>
+      <button id="mode-admin" data-act="mode" data-v="admin" role="tab">店家後台</button>
+    </div>
+  </div>
+  <main id="app"></main>
+</div>
+<div id="bottom"></div>
+<div id="toast" class="toast" hidden></div>
+
+<script>
+// ---------- 範例資料 ----------
+const SERVICES = [
+  { id: 's1', cat: 'lash', name: '自然單根嫁接', dur: 90, price: 1200, desc: '日常裸感，約 80–100 根' },
+  { id: 's2', cat: 'lash', name: '濃密款嫁接', dur: 120, price: 1600, desc: '放大眼神，約 140 根' },
+  { id: 's3', cat: 'lash', name: '下睫毛嫁接', dur: 45, price: 600, desc: '可單獨或搭配上睫毛' },
+  { id: 's4', cat: 'lash', name: '睫毛卸除', dur: 30, price: 300, desc: '他店作品也可卸' },
+  { id: 's5', cat: 'nail', name: '單色凝膠', dur: 60, price: 900, desc: '含基礎修型、保養' },
+  { id: 's6', cat: 'nail', name: '造型凝膠', dur: 90, price: 1400, desc: '可帶參考圖，依款式加價' },
+  { id: 's7', cat: 'nail', name: '法式凝膠', dur: 75, price: 1200, desc: '經典法式或跳色法式' },
+  { id: 's8', cat: 'nail', name: '卸甲＋保養', dur: 40, price: 400, desc: '卸除舊凝膠＋甘皮整理' },
+];
+const ADDONS = [
+  { id: 'a1', cat: 'lash', name: '角蛋白護理', dur: 15, price: 300 },
+  { id: 'a2', cat: 'lash', name: '彩色睫毛', dur: 0, price: 200 },
+  { id: 'a3', cat: 'nail', name: '手部去角質', dur: 20, price: 300 },
+  { id: 'a4', cat: 'nail', name: '延甲（全手）', dur: 30, price: 500 },
+];
+const STAFF = [
+  { id: 't1', name: '佳瑩', cats: ['lash', 'nail'] },
+  { id: 't2', name: '小安', cats: ['lash'] },
+  { id: 't3', name: '米雅', cats: ['nail'] },
+];
+const NAMES = ['林小姐', '陳怡君', '張小涵', '黃佩珊', '吳欣妤', '劉雅婷', '蔡宜蓁', '楊詩涵', '許庭瑜', '鄭筱婷', '謝語彤', '洪佳穎'];
+const DEPOSIT = 300;
+const WD = ['日', '一', '二', '三', '四', '五', '六'];
+const svcById = Object.fromEntries(SERVICES.map((s) => [s.id, s]));
+const addById = Object.fromEntries(ADDONS.map((a) => [a.id, a]));
+const staffById = Object.fromEntries(STAFF.map((s) => [s.id, s]));
+
+// ---------- 工具 ----------
+const pad = (n) => String(n).padStart(2, '0');
+const ymd = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+const parse = (s) => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
+const addDays = (s, n) => { const d = parse(s); d.setDate(d.getDate() + n); return ymd(d); };
+const hm = (m) => `${pad(Math.floor(m / 60))}:${pad(m % 60)}`;
+const money = (n) => 'NT$' + n.toLocaleString('en-US');
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const md = (s) => { const d = parse(s); return `${d.getMonth() + 1}/${d.getDate()}`; };
+const wd = (s) => WD[parse(s).getDay()];
+const TODAY = ymd(new Date());
+const nowMin = () => { const d = new Date(); return d.getHours() * 60 + d.getMinutes(); };
+let seed = 20261008;
+const rnd = () => { seed |= 0; seed = (seed + 0x6D2B79F5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+const pick = (arr) => arr[Math.floor(rnd() * arr.length)];
+
+// ---------- 狀態 ----------
+const S = {
+  mode: 'book',
+  settings: {
+    interval: 30, buffer: 10,
+    // 0 = 週日；null = 公休
+    hours: { 0: [11, 19], 1: null, 2: [11, 20], 3: [11, 20], 4: [11, 20], 5: [11, 21], 6: [10, 19] },
+  },
+  bookings: [],
+  book: { step: 1, cat: 'lash', svc: null, adds: [], staff: 'any', date: null, time: null, name: '', phone: '', note: '', last: null },
+  admin: { tab: 'list', date: TODAY, open: null, finishing: null, period: 'month' },
+};
+
+const bookingDur = (b) => b.dur;
+function overlaps(date, staffId, start, dur, ignoreId) {
+  const buf = S.settings.buffer;
+  return S.bookings.some((b) => b.date === date && b.staff === staffId && b.id !== ignoreId
+    && b.status !== 'cancelled'
+    && start < b.start + b.dur + buf && b.start < start + dur + buf);
+}
+
+// 產生範例預約：過去 40 天到未來 6 天
+(function seedBookings() {
+  let n = 0;
+  const nm = nowMin();
+  for (let off = -40; off <= 6; off++) {
+    const date = addDays(TODAY, off);
+    const h = S.settings.hours[parse(date).getDay()];
+    if (!h) continue;
+    for (const st of STAFF) {
+      // 過去排得滿一點（營收才好看），未來留空檔讓人試約
+      const count = off < 0 ? 2 + Math.floor(rnd() * 3) : off === 0 ? 2 : Math.floor(rnd() * 2) + (off > 3 ? 0 : 1);
+      for (let i = 0; i < count; i++) {
+        const svc = pick(SERVICES.filter((s) => st.cats.includes(s.cat)));
+        const addPool = ADDONS.filter((a) => a.cat === svc.cat);
+        const adds = rnd() < 0.35 ? [pick(addPool).id] : [];
+        const dur = svc.dur + adds.reduce((t, a) => t + addById[a].dur, 0);
+        let start = null;
+        for (let tries = 0; tries < 12; tries++) {
+          const t = h[0] * 60 + Math.floor(rnd() * ((h[1] * 60 - dur - h[0] * 60) / 30 + 1)) * 30;
+          if (t + dur <= h[1] * 60 && !overlaps(date, st.id, t, dur)) { start = t; break; }
+        }
+        if (start === null) continue;
+        const total = svc.price + adds.reduce((t, a) => t + addById[a].price, 0);
+        const past = off < 0 || (off === 0 && start + dur <= nm);
+        let status = 'confirmed';
+        const r = rnd();
+        if (past) status = r < 0.86 ? 'completed' : r < 0.93 ? 'cancelled' : 'no_show';
+        else if (r < 0.1) status = 'pending';
+        const depositPaid = status !== 'pending' && rnd() < 0.92;
+        const final = status === 'completed' ? total + (rnd() < 0.3 ? pick([100, 200, -100]) : 0) : null;
+        S.bookings.push({
+          id: 'b' + (++n), date, start, dur, svc: svc.id, adds, staff: st.id,
+          name: pick(NAMES), phone: '09' + String(10000000 + Math.floor(rnd() * 89999999)),
+          note: rnd() < 0.15 ? pick(['眼睛較敏感', '想要比上次再翹一點', '會帶參考圖', '對膠過敏，請用敏感膠']) : '',
+          status, total, final, deposit: DEPOSIT, depositPaid,
+          refunded: status === 'cancelled' && depositPaid && rnd() < 0.5, isNew: false,
+        });
+      }
+    }
+  }
+})();
+
+// ---------- 時段計算 ----------
+function slotsFor(date, staffSel, dur, cat) {
+  const h = S.settings.hours[parse(date).getDay()];
+  if (!h) return [];
+  const step = S.settings.interval;
+  const candidates = staffSel === 'any' ? STAFF.filter((s) => s.cats.includes(cat)).map((s) => s.id) : [staffSel];
+  const out = [];
+  for (let t = h[0] * 60; t + dur <= h[1] * 60; t += step) {
+    if (date === TODAY && t < nowMin() + 30) continue;
+    const free = candidates.find((sid) => !overlaps(date, sid, t, dur));
+    if (free) out.push({ t, staff: free });
+  }
+  return out;
+}
+
+// ---------- 客人預約頁 ----------
+function current() {
+  const b = S.book;
+  const svc = b.svc ? svcById[b.svc] : null;
+  const dur = svc ? svc.dur + b.adds.reduce((t, a) => t + addById[a].dur, 0) : 0;
+  const total = svc ? svc.price + b.adds.reduce((t, a) => t + addById[a].price, 0) : 0;
+  return { svc, dur, total };
+}
+
+function stepsBar(step) {
+  return `<div class="steps" aria-label="預約步驟">${['選服務', '選時間', '填資料', '付訂金']
+    .map((l, i) => `<div class="${i < step ? 'on' : ''}">${l}</div>`).join('')}</div>`;
+}
+
+function renderBook() {
+  const b = S.book;
+  const { svc, dur, total } = current();
+  let html = `<div class="shop"><div class="logo">花</div><div><h1>小花美甲美睫</h1><div class="muted">台北市大安區・捷運忠孝復興站</div></div></div>`;
+  let bar = '';
+
+  if (b.step === 1) {
+    html += stepsBar(1);
+    html += `<div class="chips" style="margin-top:14px">
+      ${[['lash', '美睫'], ['nail', '美甲']].map(([k, l]) => `<button class="chip ${b.cat === k ? 'on' : ''}" data-act="cat" data-v="${k}">${l}</button>`).join('')}</div>`;
+    html += `<h2 class="sec-title">選擇服務</h2><div class="stack">`;
+    for (const s of SERVICES.filter((x) => x.cat === b.cat)) {
+      html += `<button class="svc ${b.svc === s.id ? 'on' : ''}" data-act="svc" data-v="${s.id}" aria-pressed="${b.svc === s.id}">
+        <span class="dot"></span>
+        <span class="svc-main"><strong>${s.name}</strong><span class="muted">${s.desc}・約 ${s.dur} 分鐘</span></span>
+        <span class="svc-price">${money(s.price)}</span></button>`;
+    }
+    html += `</div>`;
+    if (svc) {
+      html += `<h2 class="sec-title">加購 <small>可複選</small></h2><div class="chips">
+        ${ADDONS.filter((a) => a.cat === b.cat).map((a) => `<button class="chip ${b.adds.includes(a.id) ? 'on' : ''}" data-act="add" data-v="${a.id}">${a.name} +${money(a.price)}</button>`).join('')}</div>`;
+      html += `<h2 class="sec-title">指定設計師</h2><div class="chips">
+        <button class="chip ${b.staff === 'any' ? 'on' : ''}" data-act="staff" data-v="any">不指定</button>
+        ${STAFF.filter((s) => s.cats.includes(b.cat)).map((s) => `<button class="chip ${b.staff === s.id ? 'on' : ''}" data-act="staff" data-v="${s.id}">${s.name}</button>`).join('')}</div>`;
+    }
+    bar = `<div class="bar"><div class="bar-sum"><span>${svc ? `約 ${dur} 分鐘` : '請先選一項服務'}</span><strong class="num">${money(total)}</strong></div>
+      <button class="btn" data-act="go" data-v="2" ${svc ? '' : 'disabled'}>選時間</button></div>`;
+  }
+
+  if (b.step === 2) {
+    html += stepsBar(2);
+    html += `<h2 class="sec-title">選擇日期 <small>可預約 14 天內</small></h2><div class="days">`;
+    for (let i = 0; i < 14; i++) {
+      const d = addDays(TODAY, i);
+      const closed = !S.settings.hours[parse(d).getDay()];
+      html += `<button class="day ${b.date === d ? 'on' : ''}" data-act="date" data-v="${d}" ${closed ? 'disabled' : ''}>
+        <span>${i === 0 ? '今天' : '週' + wd(d)}</span><b class="num">${parse(d).getDate()}</b><span>${closed ? '公休' : md(d)}</span></button>`;
+    }
+    html += `</div>`;
+    if (b.date) {
+      const slots = slotsFor(b.date, b.staff, dur, b.cat);
+      html += `<h2 class="sec-title">選擇時間 <small>每 ${S.settings.interval} 分鐘一個時段</small></h2>`;
+      html += slots.length
+        ? `<div class="times">${slots.map((s) => `<button class="time ${b.time === s.t ? 'on' : ''}" data-act="time" data-v="${s.t}">${hm(s.t)}</button>`).join('')}</div>`
+        : `<div class="card muted">${b.date === TODAY ? '今天可預約的時段已經過了' : '這天已經約滿了'}，換一天看看。</div>`;
+    } else {
+      html += `<p class="muted" style="margin-top:8px">先選一天，就會出現可預約的時間。</p>`;
+    }
+    bar = `<div class="bar"><div class="bar-sum"><span>${b.date && b.time != null ? `${md(b.date)}（${wd(b.date)}）${hm(b.time)}` : svc.name}</span><strong class="num">${money(total)}</strong></div>
+      <div class="row"><button class="btn-text" data-act="go" data-v="1">上一步</button>
+      <button class="btn" data-act="go" data-v="3" ${b.date && b.time != null ? '' : 'disabled'}>下一步</button></div></div>`;
+  }
+
+  if (b.step === 3) {
+    html += stepsBar(3);
+    const staffName = b.staff === 'any' ? '不指定（由店家安排）' : staffById[b.staff].name;
+    html += `<h2 class="sec-title">預約內容</h2><div class="card"><dl class="kv">
+      <div><dt>服務</dt><dd>${svc.name}${b.adds.length ? '＋' + b.adds.map((a) => addById[a].name).join('、') : ''}</dd></div>
+      <div><dt>時間</dt><dd class="num">${md(b.date)}（${wd(b.date)}）${hm(b.time)}–${hm(b.time + dur)}</dd></div>
+      <div><dt>設計師</dt><dd>${staffName}</dd></div>
+      <div><dt>金額</dt><dd class="num">${money(total)}（訂金 ${money(DEPOSIT)} 可折抵）</dd></div></dl></div>`;
+    html += `<h2 class="sec-title">您的資料</h2><div class="stack">
+      <label class="f" for="f-name">姓名<input class="input" id="f-name" data-in="name" value="${esc(b.name)}" placeholder="例如：王小美" autocomplete="name"></label>
+      <label class="f" for="f-phone">手機<input class="input num" id="f-phone" data-in="phone" value="${esc(b.phone)}" placeholder="0912345678" inputmode="tel" autocomplete="tel"></label>
+      <label class="f" for="f-note">備註（選填）<input class="input" id="f-note" data-in="note" value="${esc(b.note)}" placeholder="例如：眼睛較敏感"></label>
+      <p class="note">取消或改期請在 24 小時前告知，訂金可全額退還；當天取消或未到，訂金不退。</p></div>`;
+    const ok = b.name.trim() && /^09\d{8}$/.test(b.phone.trim());
+    bar = `<div class="bar"><div class="bar-sum"><span>${ok ? '先付訂金，時段就保留給您' : '請填姓名與 09 開頭的手機號碼'}</span><strong class="num">${money(DEPOSIT)}</strong></div>
+      <div class="row"><button class="btn-text" data-act="go" data-v="2">上一步</button>
+      <button class="btn" id="to-pay" data-act="go" data-v="4" ${ok ? '' : 'disabled'}>付訂金</button></div></div>`;
+  }
+
+  if (b.step === 4) {
+    html += stepsBar(4);
+    html += `<h2 class="sec-title">付訂金</h2><div class="card pay-box">
+      <div class="muted">${svc.name}・${md(b.date)} ${hm(b.time)}</div>
+      <div class="pay-amt">${money(DEPOSIT)}</div>
+      <div class="muted">正式版會在這裡打開綠界付款頁，可用信用卡、ATM 轉帳或超商代碼付款。</div>
+      <div class="note">展示版不會扣款，按下面的按鈕就當作付款成功。</div></div>`;
+    bar = `<div class="bar"><div class="row"><button class="btn-text" data-act="go" data-v="3">上一步</button>
+      <button class="btn" data-act="pay">模擬付款成功</button></div></div>`;
+  }
+
+  if (b.step === 5) {
+    const x = b.last;
+    html += `<div class="done-icon"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+      <h2 style="text-align:center;font-size:22px;font-weight:900">預約完成</h2>
+      <p class="muted" style="text-align:center;margin:4px 0 0">訂金已付，時段幫您保留好了</p>
+      <h2 class="sec-title">客人會在 LINE 收到這則通知</h2>
+      <div class="msg"><b>【小花美甲美睫】預約確認</b>
+        <span>${esc(x.name)} 您好，已收到您的訂金 ${money(x.deposit)}。</span>
+        <span>服務：${svcById[x.svc].name}</span>
+        <span>時間：${md(x.date)}（${wd(x.date)}）${hm(x.start)}</span>
+        <span>設計師：${staffById[x.staff].name}</span>
+        <span class="muted">前一天晚上會再提醒您一次。</span></div>
+      <div class="note" style="margin-top:16px">這筆預約已經出現在店家後台，切到「店家後台」就看得到。</div>`;
+    bar = `<div class="bar"><div class="row"><button class="btn-line" data-act="again">再約一次</button>
+      <button class="btn" data-act="see">看店家後台</button></div></div>`;
+  }
+
+  return { html, bar };
+}
+
+// ---------- 店家後台 ----------
+const STATUS = { pending: ['待付訂金', 'p-pending'], confirmed: ['已確認', 'p-confirmed'], completed: ['已完成', 'p-completed'], cancelled: ['已取消', 'p-cancelled'], no_show: ['爽約', 'p-no_show'] };
+const income = (b) => b.final ?? b.total;
+
+function renderList() {
+  const a = S.admin;
+  let html = `<div class="days" style="margin-top:4px">`;
+  for (let i = -3; i < 11; i++) {
+    const d = addDays(TODAY, i);
+    const cnt = S.bookings.filter((b) => b.date === d && b.status !== 'cancelled').length;
+    html += `<button class="day ${a.date === d ? 'on' : ''}" data-act="adate" data-v="${d}">
+      <span>${d === TODAY ? '今天' : '週' + wd(d)}</span><b class="num">${parse(d).getDate()}</b><span>${cnt ? cnt + ' 筆' : '—'}</span></button>`;
+  }
+  html += `</div>`;
+  const list = S.bookings.filter((b) => b.date === a.date).sort((x, y) => x.start - y.start);
+  const active = list.filter((b) => b.status !== 'cancelled');
+  const sum = active.reduce((t, b) => t + (b.status === 'completed' ? income(b) : b.status === 'no_show' ? 0 : b.total), 0);
+  html += `<p class="muted" style="text-align:center;margin:6px 0 12px">${md(a.date)}（${wd(a.date)}）共 ${active.length} 筆・預估 ${money(sum)}</p>`;
+  if (!S.settings.hours[parse(a.date).getDay()]) html += `<div class="card muted" style="text-align:center">今天公休</div>`;
+  else if (!list.length) html += `<div class="card muted" style="text-align:center">這天還沒有預約</div>`;
+  html += `<div class="stack">`;
+  for (const b of list) {
+    const [label, cls] = STATUS[b.status];
+    const open = a.open === b.id;
+    const svc = svcById[b.svc];
+    html += `<div class="card bk ${b.status === 'cancelled' || b.status === 'no_show' ? 'dim' : ''}">
+      <button class="bk-head" data-act="open" data-v="${b.id}" aria-expanded="${open}">
+        <span class="bk-time"><strong>${hm(b.start)}</strong><span>${b.dur} 分</span></span>
+        <span class="bk-main"><strong>${esc(b.name)}${b.isNew ? '<span class="new">新</span>' : ''}</strong><span>${svc.name}・${staffById[b.staff].name}</span></span>
+        <span class="pill ${cls}">${label}</span></button>`;
+    if (open) {
+      html += `<div class="bk-body"><dl class="kv">
+        <div><dt>手機</dt><dd class="num">${esc(b.phone)}</dd></div>
+        <div><dt>加購</dt><dd>${b.adds.length ? b.adds.map((x) => addById[x].name).join('、') : '—'}</dd></div>
+        <div><dt>金額</dt><dd class="num">${b.status === 'completed' ? `實收 ${money(income(b))}` : `預估 ${money(b.total)}`}</dd></div>
+        <div><dt>訂金</dt><dd>${b.depositPaid ? (b.refunded ? `${money(b.deposit)}（已退）` : `${money(b.deposit)} 已付`) : '尚未付'}</dd></div>
+        ${b.note ? `<div><dt>備註</dt><dd>${esc(b.note)}</dd></div>` : ''}</dl>`;
+      if (b.status === 'confirmed' || b.status === 'pending') {
+        if (a.finishing === b.id) {
+          html += `<div class="stack"><label class="f" for="f-final">實收金額（元）<input class="input num" id="f-final" inputmode="numeric" value="${b.total}"></label>
+            <div class="acts"><button class="btn-line" data-act="finish" data-v="${b.id}">確認完成</button><button class="btn-text" data-act="unfinish">先不要</button></div></div>`;
+        } else {
+          html += `<div class="acts"><button class="btn-line" data-act="startfinish" data-v="${b.id}">完成服務</button>
+            <button class="btn-line bad" data-act="noshow" data-v="${b.id}">爽約</button>
+            <button class="btn-text" data-act="cancel" data-v="${b.id}">取消預約</button></div>`;
+        }
+      }
+      html += `</div>`;
+    }
+    html += `</div>`;
+  }
+  html += `</div>`;
+  return html;
+}
+
+function renderSchedule() {
+  const st = S.settings;
+  let html = `<h2 class="sec-title">預約時段設定</h2><div class="card stack">
+    <div class="f">時段間隔<div class="chips">${[15, 20, 30, 45, 60].map((v) => `<button class="chip ${st.interval === v ? 'on' : ''}" data-act="interval" data-v="${v}">${v} 分</button>`).join('')}</div></div>
+    <div class="f">兩位客人之間的整理時間<div class="chips">${[0, 10, 15, 20].map((v) => `<button class="chip ${st.buffer === v ? 'on' : ''}" data-act="buffer" data-v="${v}">${v ? v + ' 分' : '不需要'}</button>`).join('')}</div></div>
+    <p class="note" style="margin:0">改完馬上生效。切到「客人預約頁」選時間，就會看到時段變成每 ${st.interval} 分鐘一格。</p></div>`;
+  html += `<h2 class="sec-title">每週營業時間</h2><div class="card">`;
+  const hrs = Array.from({ length: 15 }, (_, i) => i + 8);
+  for (const d of [1, 2, 3, 4, 5, 6, 0]) {
+    const h = st.hours[d];
+    html += `<div class="hours"><label class="toggle"><input type="checkbox" id="open-${d}" data-act="dayopen" data-v="${d}" ${h ? 'checked' : ''}><span class="track"></span>週${WD[d]}</label>
+      ${h ? `<span class="row"><select class="input num" id="h-open-${d}" data-hour="${d}:0" aria-label="週${WD[d]}開始">${hrs.map((x) => `<option value="${x}" ${x === h[0] ? 'selected' : ''}>${pad(x)}:00</option>`).join('')}</select>
+        <span class="muted">至</span>
+        <select class="input num" id="h-close-${d}" data-hour="${d}:1" aria-label="週${WD[d]}結束">${hrs.map((x) => `<option value="${x}" ${x === h[1] ? 'selected' : ''}>${pad(x)}:00</option>`).join('')}</select></span>` : '<span class="muted">公休</span>'}</div>`;
+  }
+  html += `</div>`;
+  return html;
+}
+
+function rangeOf(p) {
+  const d = parse(TODAY);
+  if (p === 'today') return [TODAY, TODAY];
+  if (p === 'week') { const dow = d.getDay(); const mon = addDays(TODAY, dow === 0 ? -6 : 1 - dow); return [mon, addDays(mon, 6)]; }
+  if (p === 'month') return [ymd(new Date(d.getFullYear(), d.getMonth(), 1)), ymd(new Date(d.getFullYear(), d.getMonth() + 1, 0))];
+  return [ymd(new Date(d.getFullYear(), d.getMonth() - 1, 1)), ymd(new Date(d.getFullYear(), d.getMonth(), 0))];
+}
+
+function renderReport() {
+  const p = S.admin.period;
+  const [from, to] = rangeOf(p);
+  const inR = S.bookings.filter((b) => b.date >= from && b.date <= to);
+  const done = inR.filter((b) => b.status === 'completed');
+  const forfeited = inR.filter((b) => (b.status === 'no_show' || b.status === 'cancelled') && b.depositPaid && !b.refunded).reduce((t, b) => t + b.deposit, 0);
+  const service = done.reduce((t, b) => t + income(b), 0);
+  const upcoming = inR.filter((b) => b.status === 'confirmed' || b.status === 'pending');
+  const rank = (keyFn, nameFn) => {
+    const m = {};
+    for (const b of done) { const k = keyFn(b); m[k] ??= { name: nameFn(k), revenue: 0, count: 0 }; m[k].revenue += income(b); m[k].count++; }
+    return Object.values(m).sort((x, y) => y.revenue - x.revenue);
+  };
+  const byStaff = rank((b) => b.staff, (k) => staffById[k].name);
+  const bySvc = rank((b) => b.svc, (k) => svcById[k].name);
+  const list = (rows) => { const max = Math.max(1, ...rows.map((r) => r.revenue)); return `<ul class="card rank">${rows.map((r) => `<li><div class="rank-top"><span>${r.name}</span><span class="muted">${r.count} 筆</span><strong>${money(r.revenue)}</strong></div><div class="meter"><i style="width:${(r.revenue / max) * 100}%"></i></div></li>`).join('')}</ul>`; };
+
+  let html = `<div class="chips" style="margin-top:4px">${[['today', '今天'], ['week', '本週'], ['month', '本月'], ['last', '上月']].map(([k, l]) => `<button class="chip ${p === k ? 'on' : ''}" data-act="period" data-v="${k}">${l}</button>`).join('')}</div>`;
+  html += `<div class="card hero" style="margin-top:14px"><div class="muted">${from === to ? md(from) : `${md(from)} – ${md(to)}`} 營收</div>
+    <div class="hero-v">${money(service + forfeited)}</div>
+    <div class="muted">服務收入 ${money(service)}${forfeited ? `＋沒收訂金 ${money(forfeited)}` : ''}</div></div>`;
+  html += `<div class="stats" style="margin-top:10px">
+    <div class="card stat"><b>${done.length}</b><span class="muted">完成</span></div>
+    <div class="card stat"><b style="color:var(--bad)">${inR.filter((b) => b.status === 'no_show').length}</b><span class="muted">爽約</span></div>
+    <div class="card stat"><b>${inR.filter((b) => b.status === 'cancelled').length}</b><span class="muted">取消</span></div></div>`;
+  if (upcoming.length) html += `<p class="note" style="margin-top:12px">這段期間還有 ${upcoming.length} 筆還沒服務，預估 ${money(upcoming.reduce((t, b) => t + b.total, 0))}，完成後才會算進營收。</p>`;
+  if (byStaff.length) html += `<h2 class="sec-title">設計師業績</h2>${list(byStaff)}`;
+  if (bySvc.length) html += `<h2 class="sec-title">熱門服務</h2>${list(bySvc)}`;
+  if (!done.length && !upcoming.length) html += `<div class="card muted" style="margin-top:12px;text-align:center">這段期間還沒有營收紀錄</div>`;
+  html += `<p class="muted" style="margin-top:16px">營收以「完成服務」時填的實收金額計算；爽約或取消且訂金沒退的，算進沒收訂金。</p>`;
+  return html;
+}
+
+function renderAdmin() {
+  const a = S.admin;
+  let html = `<div class="shop"><div class="logo">花</div><div><h1>店家後台</h1><div class="muted">佳瑩（店長）・小花美甲美睫</div></div></div>`;
+  html += a.tab === 'list' ? renderList() : a.tab === 'schedule' ? renderSchedule() : renderReport();
+  const bar = `<nav class="tabbar">${[['list', '預約'], ['schedule', '班表'], ['report', '營收']].map(([k, l]) => `<button class="tab ${a.tab === k ? 'on' : ''}" data-act="tab" data-v="${k}">${l}</button>`).join('')}</nav>`;
+  return { html, bar };
+}
+
+// ---------- 畫面 ----------
+const app = document.getElementById('app');
+const bottom = document.getElementById('bottom');
+function render(scrollTop) {
+  document.getElementById('mode-book').className = S.mode === 'book' ? 'on' : '';
+  document.getElementById('mode-admin').className = S.mode === 'admin' ? 'on' : '';
+  document.getElementById('mode-book').setAttribute('aria-selected', S.mode === 'book');
+  document.getElementById('mode-admin').setAttribute('aria-selected', S.mode === 'admin');
+  const { html, bar } = S.mode === 'book' ? renderBook() : renderAdmin();
+  app.innerHTML = html;
+  bottom.innerHTML = bar;
+  if (scrollTop) window.scrollTo({ top: 0 });
+}
+let toastTimer;
+function toast(t) { const el = document.getElementById('toast'); el.textContent = t; el.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => { el.hidden = true; }, 2200); }
+
+document.addEventListener('click', (e) => {
+  const el = e.target.closest('[data-act]');
+  if (!el || el.tagName === 'INPUT') return;
+  const v = el.dataset.v;
+  const b = S.book, a = S.admin;
+  let top = false;
+  switch (el.dataset.act) {
+    case 'mode': S.mode = v; top = true; break;
+    case 'cat': if (b.cat !== v) { b.cat = v; b.svc = null; b.adds = []; b.staff = 'any'; b.time = null; } break;
+    case 'svc': b.svc = v; b.time = null; break;
+    case 'add': b.adds = b.adds.includes(v) ? b.adds.filter((x) => x !== v) : [...b.adds, v]; b.time = null; break;
+    case 'staff': b.staff = v; b.time = null; break;
+    case 'go': b.step = Number(v); top = true;
+      if (b.step === 2 && !b.date) {
+        const { dur } = current();
+        b.date = [...Array(14).keys()].map((i) => addDays(TODAY, i)).find((d) => slotsFor(d, b.staff, dur, b.cat).length);
+      }
+      break;
+    case 'date': b.date = v; b.time = null; break;
+    case 'time': b.time = Number(v); break;
+    case 'pay': {
+      const { svc, dur, total } = current();
+      const slot = slotsFor(b.date, b.staff, dur, b.cat).find((s) => s.t === b.time);
+      if (!slot) { toast('這個時段剛被約走了，請重選'); b.step = 2; b.time = null; top = true; break; }
+      const nb = { id: 'n' + Date.now(), date: b.date, start: b.time, dur, svc: svc.id, adds: [...b.adds], staff: slot.staff,
+        name: b.name.trim(), phone: b.phone.trim(), note: b.note.trim(), status: 'confirmed', total, final: null,
+        deposit: DEPOSIT, depositPaid: true, refunded: false, isNew: true };
+      S.bookings.push(nb); b.last = nb; b.step = 5; top = true; break;
+    }
+    case 'again': Object.assign(b, { step: 1, svc: null, adds: [], staff: 'any', date: null, time: null, note: '' }); top = true; break;
+    case 'see': S.mode = 'admin'; a.tab = 'list'; a.date = b.last.date; a.open = b.last.id; top = true; break;
+    case 'tab': a.tab = v; a.finishing = null; top = true; break;
+    case 'adate': a.date = v; a.open = null; a.finishing = null; break;
+    case 'open': a.open = a.open === v ? null : v; a.finishing = null; break;
+    case 'startfinish': a.finishing = v; break;
+    case 'unfinish': a.finishing = null; break;
+    case 'finish': {
+      const bk = S.bookings.find((x) => x.id === v);
+      const n = Number(document.getElementById('f-final').value);
+      if (!Number.isFinite(n) || n < 0) { toast('請輸入正確的金額'); return; }
+      bk.status = 'completed'; bk.final = Math.round(n); a.finishing = null; toast(`已完成，實收 ${money(bk.final)}`); break;
+    }
+    case 'noshow': { const bk = S.bookings.find((x) => x.id === v); bk.status = 'no_show'; toast('已標記爽約，訂金不退'); break; }
+    case 'cancel': { const bk = S.bookings.find((x) => x.id === v); bk.status = 'cancelled'; toast('已取消預約'); break; }
+    case 'interval': S.settings.interval = Number(v); S.book.time = null; toast(`時段間隔改為 ${v} 分鐘`); break;
+    case 'buffer': S.settings.buffer = Number(v); S.book.time = null; toast(Number(v) ? `每位客人之間留 ${v} 分鐘` : '不留整理時間'); break;
+    case 'period': a.period = v; break;
+    default: return;
+  }
+  render(top);
+});
+
+document.addEventListener('change', (e) => {
+  const el = e.target;
+  if (el.dataset.act === 'dayopen') {
+    const d = Number(el.dataset.v);
+    S.settings.hours[d] = el.checked ? [11, 20] : null;
+    S.book.time = null; render();
+  } else if (el.dataset.hour) {
+    const [d, i] = el.dataset.hour.split(':').map(Number);
+    const h = [...S.settings.hours[d]];
+    h[i] = Number(el.value);
+    if (h[1] <= h[0]) { toast('結束時間要晚於開始時間'); render(); return; }
+    S.settings.hours[d] = h; S.book.time = null; render();
+  }
+});
+
+// 填資料：只更新下方按鈕，不重畫整頁（避免輸入框失去焦點）
+document.addEventListener('input', (e) => {
+  const k = e.target.dataset.in;
+  if (!k) return;
+  S.book[k] = e.target.value;
+  const ok = S.book.name.trim() && /^09\d{8}$/.test(S.book.phone.trim());
+  const btn = document.getElementById('to-pay');
+  if (btn) { btn.disabled = !ok; btn.closest('.bar').querySelector('.bar-sum span').textContent = ok ? '先付訂金，時段就保留給您' : '請填姓名與 09 開頭的手機號碼'; }
+});
+
+render();
+</script>
+</body>
+</html>
