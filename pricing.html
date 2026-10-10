@@ -12,8 +12,8 @@
 /* 方案價格頁：與首頁同一套品牌色。首屏＋月繳/年繳切換 → 方案卡 → 所有方案都包含 → 加購模組 → 繳費問答 → 聯絡 */
 :root {
   --bg: #F5F6FA; --surface: #FFFFFF; --ink: #1D2140; --text: #3A3F5C; --muted: #6B7090; --line: #E1E4EF;
-  --brand: #3C44C8; --brand-soft: #E8E9FB; --nail: #D6457A; --nail-soft: #FFE8F0; --soon: #138A7A; --soon-soft: #E2F4F1;
-  --save: #B4232F; --save-soft: #FDECEE;
+  --brand: #3C44C8; --brand-soft: #E8E9FB; --nail: #6B4EE6; --nail-soft: #EEEAFF; --soon: #138A7A; --soon-soft: #E2F4F1;
+  --save: #0E6E63; --save-soft: #DDF6F2;
   --display: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
   --latin: "Nunito", "Noto Sans TC", sans-serif;
   color-scheme: light;
@@ -21,14 +21,14 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #12142A; --surface: #1C1F3A; --ink: #F1F2FA; --text: #C9CCE2; --muted: #9A9EBE; --line: #2E3254;
-    --brand: #8F95FF; --brand-soft: #262A55; --nail: #FF8DB4; --nail-soft: #3A2033; --soon: #5CD3C0; --soon-soft: #173533;
-    --save: #FF8A93; --save-soft: #3A1E24; color-scheme: dark;
+    --brand: #8F95FF; --brand-soft: #262A55; --nail: #B3A4FF; --nail-soft: #2C2652; --soon: #5CD3C0; --soon-soft: #173533;
+    --save: #5CD3C0; --save-soft: #173533; color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #12142A; --surface: #1C1F3A; --ink: #F1F2FA; --text: #C9CCE2; --muted: #9A9EBE; --line: #2E3254;
-  --brand: #8F95FF; --brand-soft: #262A55; --nail: #FF8DB4; --nail-soft: #3A2033; --soon: #5CD3C0; --soon-soft: #173533;
-  --save: #FF8A93; --save-soft: #3A1E24; color-scheme: dark;
+  --brand: #8F95FF; --brand-soft: #262A55; --nail: #B3A4FF; --nail-soft: #2C2652; --soon: #5CD3C0; --soon-soft: #173533;
+  --save: #5CD3C0; --save-soft: #173533; color-scheme: dark;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -106,6 +106,7 @@ header { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; back
 .addon-main h3 { font-size: 18px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .addon-main p { font-size: 15px; color: var(--muted); }
 .tag { font-size: 12px; font-weight: 800; padding: 3px 10px; border-radius: 999px; }
+.tag-new { background: var(--nail-soft); color: var(--nail); font-size: 11px; padding: 2px 8px; vertical-align: 2px; }
 .tag-soon { background: var(--soon-soft); color: var(--soon); }
 .tag-plan { background: var(--brand-soft); color: var(--brand); }
 .addon .btn { min-height: 44px; font-size: 15px; }
@@ -183,6 +184,7 @@ footer { padding-block: 32px 48px; color: var(--muted); font-size: 14px; }
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>LINE 線上預約、自動排時段</li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>線上收訂金，減少爽約</li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>預約確認、前一天自動提醒</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>回訪提醒，帶回頭客</li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>客人紀錄與作品照片</li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>營收報表</li>
           </ul>
@@ -232,18 +234,18 @@ footer { padding-block: 32px 48px; color: var(--muted); font-size: 14px; }
         <h2>不分方案，功能全部打開</h2>
       </div>
       <div class="incl">
-        <div class="inc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4M16 2v4M3 10h18"/></svg><h3>LINE 線上預約</h3><p>客人不用下載 App，只顯示還空著的時段。</p></div>
+        <div class="inc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4M16 2v4M3 10h18"/></svg><h3>LINE 線上預約</h3><p>客人不用下載 App，只顯示還空著的時段；時段間隔、營業時間自己設定。</p></div>
         <div class="inc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20M6 15h4"/></svg><h3>收訂金</h3><p>客人自行轉帳免手續費，或接綠界用信用卡、超商付款。</p></div>
         <div class="inc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21a2 2 0 0 0 4 0"/></svg><h3>自動通知</h3><p>預約確認、前一天提醒，自動發到客人的 LINE。</p></div>
-        <div class="inc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M8 7h6M8 11h6"/></svg><h3>客人紀錄</h3><p>捲度、色號、作品照片、過敏備註都記著。</p></div>
-        <div class="inc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><h3>時段自己設定</h3><p>15、30、60 分鐘一格，營業時間、公休隨時改。</p></div>
-        <div class="inc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><h3>營收報表</h3><p>本月營收、熱門服務、沒收訂金自動算好。</p></div>
-        <div class="inc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0"/><path d="M17 4l4 4M21 4l-4 4"/></svg><h3>客人管理</h3><p>完整消費紀錄、累積消費、標籤分類，回頭客一查就懂。</p></div>
+        <div class="inc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 2l4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></svg><h3>回訪提醒 <span class="tag tag-new">新功能</span></h3><p>補睫、卸甲時間到自動提醒客人回來，還看得到回訪率。</p></div>
+        <div class="inc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6l2 2 4-4"/><path d="M3 14l2 2 4-4"/><path d="M13 6h8"/><path d="M13 14h8"/><path d="M13 20h8"/></svg><h3>待處理一眼看完 <span class="tag tag-new">新功能</span></h3><p>訂金沒付、待確認轉帳、還沒結帳，打開後台就看到。</p></div>
+        <div class="inc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M8 7h6M8 11h6"/></svg><h3>客人紀錄與管理</h3><p>捲度、色號、作品照片、過敏備註、累積消費和標籤都記著。</p></div>
         <div class="inc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M3 10h18M9 4v17"/></svg><h3>日／週行事曆</h3><p>一天的細節或一整週的排程，切換著看。</p></div>
+        <div class="inc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><h3>營收報表</h3><p>本月營收、熱門服務、沒收訂金自動算好。</p></div>
         <div class="inc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3a3 3 0 0 0 0 6v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a3 3 0 0 0 0-6z"/><path d="M10 9h4M10 15h4"/></svg><h3>優惠券與生日券</h3><p>折扣碼、壽星優惠，生日當月自動用 LINE 送出。</p></div>
         <div class="inc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 17c2-3 3 1 5-1s2 1 3 1"/></svg><h3>同意書線上簽署</h3><p>客人預約時手寫簽名，簽署紀錄隨時查。</p></div>
         <div class="inc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg><h3>陪你接好 LINE</h3><p>LINE 官方帳號和綠界的設定，我們一步一步陪你完成。</p></div>
-        <div class="inc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M11 18h2"/></svg><h3>手機就能管理</h3><p>後台在 LINE 裡打開，不用另外記網址和密碼。</p></div>
+        <div class="inc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="14" height="10" rx="2"/><path d="M6 18h6"/><rect x="17" y="8" width="5" height="12" rx="1.5"/></svg><h3>手機、平板、電腦都能用 <span class="tag tag-new">新功能</span></h3><p>版面自動調整，在店裡用 iPad、回家用電腦都順手。</p></div>
       </div>
     </div>
   </section>
@@ -303,7 +305,7 @@ footer { padding-block: 32px 48px; color: var(--muted); font-size: 14px; }
 </main>
 
 <footer>
-  <div class="wrap foot"><span>© 2026 店小幫</span><span>LINE ID：@853ptiqc</span></div>
+  <div class="wrap foot"><span>© 2026 店小幫</span><span>LINE ID：@853ptiqc</span><span><a href="terms.html">服務條款</a>・<a href="refund.html">退款政策</a>・<a href="privacy.html">隱私權政策</a></span></div>
 </footer>
 
 <script>

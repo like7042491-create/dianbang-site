@@ -7,36 +7,41 @@
 <title>小花美甲美睫・預約展示</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
 <style>
-/* 粉嫩甜美風：與正式系統同一套顏色。手機寬度單欄，上方切換「客人 / 店家」，下方固定操作列 */
+/* 新擬態：與正式系統的店家後台同一套顏色。手機寬度單欄，上方切換「客人 / 店家」，下方固定操作列 */
 :root {
-  --base: #FFF5F7;
-  --surface: #FFFFFF;
-  --text: #4A3540;
-  --muted: #9A7F8B;
-  --line: #F6D9E2;
-  --pink: #FF8FAB;
-  --pink-soft: #FFE4EC;
-  --accent: #D6457A;
-  --grad: linear-gradient(135deg, #FF9BB5 0%, #E0578A 100%);
-  --ok-bg: #E3F6EE; --ok: #0F6E56;
+  --base: #F3F4F6;
+  --surface: #F3F4F6;
+  --text: #5F6877;
+  --heading: #3E4553;
+  --muted: #858D9C;
+  --line: #E5E7EB;
+  --pink: #6C83FF;
+  --pink-soft: #E8ECFF;
+  --accent: #4F64E8;
+  --grad: linear-gradient(135deg, #6C83FF 0%, #8B7BFA 100%);
+  --raise: 8px 8px 16px rgba(163,177,198,.5), -8px -8px 16px rgba(255,255,255,.8);
+  --raise-sm: 4px 4px 9px rgba(163,177,198,.45), -4px -4px 9px rgba(255,255,255,.85);
+  --inset: inset 5px 5px 10px rgba(163,177,198,.45), inset -5px -5px 10px rgba(255,255,255,.85);
+  --inset-sm: inset 3px 3px 6px rgba(163,177,198,.45), inset -3px -3px 6px rgba(255,255,255,.85);
+  --ok-bg: #DDF6F2; --ok: #0E6E63;
   --warn-bg: #FFF3DC; --warn: #8A5300;
   --bad-bg: #FDECEE; --bad: #B4233C;
-  --font: "Nunito", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+  --font: "Inter", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
   color-scheme: light;
 }
 * { box-sizing: border-box; }
 body { background: var(--base); color: var(--text); font-family: var(--font); font-size: 16px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
 button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
-button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid rgba(255,143,171,.6); outline-offset: 2px; }
+button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid rgba(108,131,255,.7); outline-offset: 2px; }
 h1, h2, h3 { text-wrap: balance; margin: 0; }
 .wrap { max-width: 480px; margin: 0 auto; padding-inline: 16px; padding-block: 0 140px; }
 
 /* 展示提示＋切換 */
 .ribbon { background: var(--grad); color: #fff; text-align: center; font-size: 13px; font-weight: 700; padding: 8px 16px; letter-spacing: .02em; }
 .switch { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--base); padding-block: 12px 10px; }
-.seg { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; background: var(--surface); border-radius: 999px; box-shadow: 0 4px 16px rgba(214,112,146,.12); }
+.seg { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; background: var(--surface); border-radius: 999px; box-shadow: 0 4px 16px rgba(163,177,198,.12); }
 .seg button { padding: 10px 0; border-radius: 999px; font-weight: 800; color: var(--muted); font-size: 15px; }
 .seg button.on { background: var(--grad); color: #fff; }
 
@@ -45,7 +50,7 @@ h1, h2, h3 { text-wrap: balance; margin: 0; }
 .logo { width: 48px; height: 48px; border-radius: 50%; background: var(--grad); color: #fff; display: grid; place-items: center; font-weight: 900; font-size: 20px; flex: none; }
 .shop h1 { font-size: 20px; font-weight: 900; }
 .muted { color: var(--muted); font-size: 14px; }
-.card { background: var(--surface); border-radius: 22px; padding: 16px 18px; box-shadow: 0 6px 20px rgba(214,112,146,.08); }
+.card { background: var(--surface); border-radius: 22px; padding: 16px 18px; box-shadow: 0 6px 20px rgba(163,177,198,.08); }
 .sec-title { font-size: 17px; font-weight: 900; margin: 24px 0 10px; display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
 .sec-title small { font-size: 13px; color: var(--muted); font-weight: 600; }
 .stack { display: grid; gap: 10px; }
@@ -53,7 +58,7 @@ h1, h2, h3 { text-wrap: balance; margin: 0; }
 .chip { padding: 8px 14px; border-radius: 999px; background: var(--surface); border: 1.5px solid var(--line); font-size: 14px; font-weight: 700; color: var(--muted); }
 .chip.on { background: var(--pink-soft); border-color: var(--pink); color: var(--accent); }
 .chip:disabled { opacity: .45; cursor: default; }
-.btn { display: block; width: 100%; padding: 15px 20px; border-radius: 999px; background: var(--grad); color: #fff; font-weight: 900; font-size: 17px; box-shadow: 0 8px 20px rgba(224,87,138,.28); }
+.btn { display: block; width: 100%; padding: 15px 20px; border-radius: 999px; background: var(--grad); color: #fff; font-weight: 900; font-size: 17px; box-shadow: 0 8px 20px rgba(108,131,255,.28); }
 .btn:disabled { opacity: .45; box-shadow: none; cursor: default; }
 .btn-line { display: inline-block; padding: 10px 18px; border-radius: 999px; background: var(--surface); border: 1.5px solid var(--pink); color: var(--accent); font-weight: 800; font-size: 15px; }
 .btn-line.bad { border-color: #F3B0B8; color: var(--bad); }
@@ -62,10 +67,10 @@ h1, h2, h3 { text-wrap: balance; margin: 0; }
 .input:focus { outline: none; border-color: var(--pink); box-shadow: 0 0 0 4px var(--pink-soft); }
 label.f { display: grid; gap: 6px; font-weight: 800; font-size: 14px; }
 .num { font-variant-numeric: tabular-nums; }
-.bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 15; max-width: 480px; margin: 0 auto; padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px)); background: var(--surface); border-radius: 26px 26px 0 0; box-shadow: 0 -6px 22px rgba(214,112,146,.14); }
+.bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 15; max-width: 480px; margin: 0 auto; padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px)); background: var(--surface); border-radius: 26px 26px 0 0; box-shadow: 0 -6px 22px rgba(163,177,198,.14); }
 .bar-sum { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; font-size: 14px; color: var(--muted); }
 .bar-sum strong { color: var(--accent); font-size: 20px; font-weight: 900; }
-.note { background: #FFF8FA; border: 1.5px dashed var(--pink); border-radius: 16px; padding: 12px 14px; font-size: 14px; }
+.note { background: #F3F4F6; border: 1.5px dashed var(--pink); border-radius: 16px; padding: 12px 14px; font-size: 14px; }
 
 /* 客人：步驟 */
 .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 6px; }
@@ -73,8 +78,8 @@ label.f { display: grid; gap: 6px; font-weight: 800; font-size: 14px; }
 .steps div::before { content: ""; display: block; height: 5px; border-radius: 3px; background: var(--line); margin-bottom: 6px; }
 .steps div.on { color: var(--accent); }
 .steps div.on::before { background: var(--grad); }
-.svc { display: flex; gap: 12px; align-items: center; width: 100%; text-align: left; padding: 14px 16px; border-radius: 20px; background: var(--surface); border: 2px solid transparent; box-shadow: 0 4px 14px rgba(214,112,146,.07); }
-.svc.on { border-color: var(--pink); background: #FFF9FB; }
+.svc { display: flex; gap: 12px; align-items: center; width: 100%; text-align: left; padding: 14px 16px; border-radius: 20px; background: var(--surface); border: 2px solid transparent; box-shadow: 0 4px 14px rgba(163,177,198,.07); }
+.svc.on { border-color: var(--pink); background: #F3F4F6; }
 .svc-main { flex: 1; min-width: 0; display: grid; gap: 2px; }
 .svc-main strong { font-weight: 900; }
 .svc-price { font-weight: 900; color: var(--accent); white-space: nowrap; }
@@ -98,12 +103,12 @@ label.f { display: grid; gap: 6px; font-weight: 800; font-size: 14px; }
 .kv dd { margin: 0; font-weight: 700; min-width: 0; overflow-wrap: anywhere; }
 .pay-box { text-align: center; display: grid; gap: 12px; padding: 26px 20px; }
 .pay-amt { font-size: 38px; font-weight: 900; color: var(--accent); font-variant-numeric: tabular-nums; }
-.done-icon { width: 76px; height: 76px; border-radius: 50%; background: var(--grad); margin: 10px auto 4px; display: grid; place-items: center; box-shadow: 0 10px 26px rgba(224,87,138,.3); }
+.done-icon { width: 76px; height: 76px; border-radius: 50%; background: var(--grad); margin: 10px auto 4px; display: grid; place-items: center; box-shadow: 0 10px 26px rgba(108,131,255,.3); }
 .msg { background: #F3F5F8; border-radius: 20px; padding: 14px 16px; font-size: 14px; display: grid; gap: 4px; }
 .msg b { font-weight: 900; }
 
 /* 店家後台 */
-.tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 15; max-width: 480px; margin: 0 auto; display: flex; gap: 6px; padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px)); background: var(--surface); border-radius: 26px 26px 0 0; box-shadow: 0 -6px 22px rgba(214,112,146,.14); }
+.tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 15; max-width: 480px; margin: 0 auto; display: flex; gap: 6px; padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px)); background: var(--surface); border-radius: 26px 26px 0 0; box-shadow: 0 -6px 22px rgba(163,177,198,.14); }
 .tab { flex: 1; padding: 11px 0; border-radius: 999px; font-weight: 800; color: var(--muted); font-size: 15px; }
 .tab.on { background: var(--pink-soft); color: var(--accent); }
 .bk { padding: 0; overflow: hidden; }
@@ -133,11 +138,11 @@ label.f { display: grid; gap: 6px; font-weight: 800; font-size: 14px; }
 .toggle { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; cursor: pointer; }
 .toggle input { position: absolute; opacity: 0; width: 1px; height: 1px; }
 .track { width: 46px; height: 28px; border-radius: 14px; background: var(--line); position: relative; flex: none; transition: background .15s; }
-.track::after { content: ""; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; box-shadow: 0 2px 6px rgba(74,53,64,.18); transition: transform .15s; }
+.track::after { content: ""; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; box-shadow: 0 2px 6px rgba(62,69,83,.18); transition: transform .15s; }
 .toggle input:checked + .track { background: var(--grad); }
 .toggle input:checked + .track::after { transform: translateX(18px); }
-.toggle input:focus-visible + .track { outline: 3px solid rgba(255,143,171,.6); outline-offset: 2px; }
-.hero { text-align: center; background: linear-gradient(135deg, #FFE1E9 0%, #FFFFFF 100%); padding: 22px 18px; }
+.toggle input:focus-visible + .track { outline: 3px solid rgba(108,131,255,.7); outline-offset: 2px; }
+.hero { text-align: center; background: linear-gradient(135deg, #E8ECFF 0%, #FFFFFF 100%); padding: 22px 18px; }
 .hero-v { font-size: 38px; font-weight: 900; color: var(--accent); font-variant-numeric: tabular-nums; margin: 2px 0; }
 .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 .stat { display: grid; justify-items: center; padding: 14px 6px; }
@@ -153,6 +158,48 @@ label.f { display: grid; gap: 6px; font-weight: 800; font-size: 14px; }
 .toast { position: fixed; left: 50%; bottom: 110px; transform: translateX(-50%); z-index: 30; background: var(--text); color: #fff; padding: 10px 18px; border-radius: 999px; font-weight: 700; font-size: 14px; white-space: nowrap; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 @media (max-width: 370px) { .times { grid-template-columns: repeat(3, 1fr); } .hours select { width: 72px; } }
+/* ---------- 新擬態：浮起的卡片、壓下的輸入框 ---------- */
+h1, h2, h3, .sec-title, .shop h1 { color: var(--heading); }
+.card, .svc { background: var(--surface); box-shadow: var(--raise); border: 0; }
+.svc.on { background: var(--base); box-shadow: var(--inset); border-color: transparent; }
+.seg { background: var(--base); box-shadow: var(--inset-sm); border-radius: 16px; }
+.seg button { border-radius: 12px; }
+.seg button.on { background: var(--surface); color: var(--accent); box-shadow: var(--raise-sm); }
+.chip, .day, .time { background: var(--surface); border: 0; box-shadow: var(--raise-sm); color: var(--text); font-weight: 600; }
+.chip.on, .time.on { background: var(--base); box-shadow: var(--inset-sm); color: var(--accent); }
+.day.on { background: var(--grad); color: #fff; box-shadow: 0 8px 18px rgba(108,131,255,.35); }
+.days { padding: 6px 4px 16px; gap: 12px; }
+.input { background-color: var(--base); border: 0; box-shadow: var(--inset); color: var(--heading); }
+.input:focus { border: 0; box-shadow: var(--inset), 0 0 0 2px rgba(108,131,255,.45); }
+.btn { border-radius: 16px; box-shadow: 0 8px 20px rgba(108,131,255,.35); font-weight: 700; }
+.btn-line { background: var(--surface); border: 0; box-shadow: var(--raise-sm); border-radius: 14px; }
+.btn-line:active { box-shadow: var(--inset-sm); }
+.btn-line.bad { color: var(--bad); }
+.note { background: var(--base); border: 0; box-shadow: var(--inset); }
+.msg { background: var(--base); box-shadow: var(--inset); }
+.dot { border-color: #C9CED8; }
+.bar, .tabbar { background: var(--base); box-shadow: 0 -6px 18px rgba(163,177,198,.35); }
+.tab { border-radius: 12px; font-weight: 600; }
+.tab.on { background: var(--base); box-shadow: var(--inset-sm); color: var(--accent); }
+.bk-time { background: var(--pink-soft); }
+.track { background: var(--base); box-shadow: var(--inset-sm); }
+.track::after { box-shadow: 2px 2px 5px rgba(163,177,198,.6); }
+.hero { background: var(--grad); color: #fff; box-shadow: 0 12px 28px rgba(108,131,255,.35); }
+.hero .muted { color: rgba(255,255,255,.85); }
+.hero-v { color: #fff; }
+.meter { background: var(--base); box-shadow: var(--inset-sm); }
+.stack { gap: 16px; }
+.stats { gap: 14px; }
+.toast { background: var(--heading); }
+/* 待處理小卡 */
+.todo { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 6px 0 14px; }
+.todo button { display: grid; justify-items: start; gap: 2px; padding: 12px 14px; text-align: left; position: relative; }
+.todo b { font-size: 24px; font-weight: 700; color: var(--heading); font-variant-numeric: tabular-nums; line-height: 1.1; }
+.todo span { font-size: 12px; color: var(--muted); }
+.todo .clear b { color: #B8BEC9; }
+.todo .alert::after { content: ""; position: absolute; top: 12px; right: 12px; width: 8px; height: 8px; border-radius: 50%; background: #E8A33D; }
+.todo .alert.red::after { background: #C0344D; }
+.todo button:active { box-shadow: var(--inset); }
 </style>
 </head>
 <body>
@@ -275,6 +322,13 @@ function overlaps(date, staffId, start, dur, ignoreId) {
         });
       }
     }
+  }
+  // 示範「待處理」：昨天最後兩筆還沒按完成、未來至少一筆待付訂金
+  const y = S.bookings.filter((b) => b.date < TODAY && b.status === 'completed').sort((a, b) => (a.date + a.start).localeCompare(b.date + b.start, 'en', { numeric: true }));
+  y.slice(-2).forEach((b) => { b.status = 'confirmed'; b.final = null; });
+  if (!S.bookings.some((b) => b.status === 'pending')) {
+    const f = S.bookings.find((b) => b.date > TODAY && b.status === 'confirmed');
+    if (f) { f.status = 'pending'; f.depositPaid = false; }
   }
 })();
 
@@ -414,9 +468,17 @@ function renderBook() {
 const STATUS = { pending: ['待付訂金', 'p-pending'], confirmed: ['已確認', 'p-confirmed'], completed: ['已完成', 'p-completed'], cancelled: ['已取消', 'p-cancelled'], no_show: ['爽約', 'p-no_show'] };
 const income = (b) => b.final ?? b.total;
 
+const isUnfinished = (b) => b.status === 'confirmed' && (b.date < TODAY || (b.date === TODAY && b.start + b.dur <= nowMin()));
 function renderList() {
   const a = S.admin;
-  let html = `<div class="days" style="margin-top:4px">`;
+  const todayN = S.bookings.filter((b) => b.date === TODAY && b.status !== 'cancelled').length;
+  const pendN = S.bookings.filter((b) => b.status === 'pending').length;
+  const unfN = S.bookings.filter(isUnfinished).length;
+  let html = `<div class="todo" role="group" aria-label="待處理">
+    <button class="card" data-act="todo" data-v="today"><b>${todayN}</b><span>今天的客人</span></button>
+    <button class="card ${pendN ? 'alert' : 'clear'}" data-act="todo" data-v="pending"><b>${pendN}</b><span>待付訂金</span></button>
+    <button class="card ${unfN ? 'alert red' : 'clear'}" data-act="todo" data-v="unfinished"><b>${unfN}</b><span>還沒按完成</span></button></div>`;
+  html += `<div class="days" style="margin-top:4px">`;
   for (let i = -3; i < 11; i++) {
     const d = addDays(TODAY, i);
     const cnt = S.bookings.filter((b) => b.date === d && b.status !== 'cancelled').length;
@@ -545,6 +607,11 @@ function render(scrollTop) {
   app.innerHTML = html;
   bottom.innerHTML = bar;
   if (scrollTop) window.scrollTo({ top: 0 });
+  if (S.scrollToId) {
+    const el = document.querySelector(`[data-act="open"][data-v="${S.scrollToId}"]`);
+    S.scrollToId = null;
+    if (el) el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  }
 }
 let toastTimer;
 function toast(t) { const el = document.getElementById('toast'); el.textContent = t; el.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => { el.hidden = true; }, 2200); }
@@ -582,6 +649,15 @@ document.addEventListener('click', (e) => {
     case 'see': S.mode = 'admin'; a.tab = 'list'; a.date = b.last.date; a.open = b.last.id; top = true; break;
     case 'tab': a.tab = v; a.finishing = null; top = true; break;
     case 'adate': a.date = v; a.open = null; a.finishing = null; break;
+    case 'todo': {
+      if (v === 'today') { a.date = TODAY; a.open = null; break; }
+      const hit = S.bookings.filter(v === 'pending' ? (x) => x.status === 'pending' : isUnfinished)
+        .sort((x, y) => (x.date === y.date ? x.start - y.start : x.date < y.date ? -1 : 1))[0];
+      if (!hit) { toast('都處理好了'); break; }
+      a.date = hit.date; a.open = hit.id; a.finishing = null; S.scrollToId = hit.id;
+      toast(v === 'pending' ? '這位客人還沒付訂金' : '服務做完了，按「完成服務」記下實收');
+      break;
+    }
     case 'open': a.open = a.open === v ? null : v; a.finishing = null; break;
     case 'startfinish': a.finishing = v; break;
     case 'unfinish': a.finishing = null; break;

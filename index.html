@@ -20,8 +20,8 @@
   --line: #E1E4EF;
   --brand: #3C44C8;
   --brand-soft: #E8E9FB;
-  --nail: #D6457A;
-  --nail-soft: #FFE8F0;
+  --nail: #6B4EE6;
+  --nail-soft: #EEEAFF;
   --soon: #138A7A;
   --soon-soft: #E2F4F1;
   --display: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
@@ -30,16 +30,17 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #12142A; --surface: #1C1F3A; --ink: #F1F2FA; --text: #C9CCE2; --muted: #9A9EBE; --line: #2E3254;
-    --brand: #8F95FF; --brand-soft: #262A55; --nail: #FF8DB4; --nail-soft: #3A2033; --soon: #5CD3C0; --soon-soft: #173533;
+    --brand: #8F95FF; --brand-soft: #262A55; --nail: #B3A4FF; --nail-soft: #2C2652; --soon: #5CD3C0; --soon-soft: #173533;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #12142A; --surface: #1C1F3A; --ink: #F1F2FA; --text: #C9CCE2; --muted: #9A9EBE; --line: #2E3254;
-  --brand: #8F95FF; --brand-soft: #262A55; --nail: #FF8DB4; --nail-soft: #3A2033; --soon: #5CD3C0; --soon-soft: #173533;
+  --brand: #8F95FF; --brand-soft: #262A55; --nail: #B3A4FF; --nail-soft: #2C2652; --soon: #5CD3C0; --soon-soft: #173533;
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
+body { margin: 0; }
 html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 body { background: var(--bg); color: var(--text); font-family: var(--display); font-size: 17px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
@@ -73,31 +74,83 @@ header { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; back
 .nav .btn { min-height: 42px; padding: 0 18px; font-size: 15px; }
 
 /* 首屏 */
-.hero { padding-block: 72px 88px; }
-.hero-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 56px; align-items: center; }
-.hero h1 { font-size: clamp(36px, 5.6vw, 60px); letter-spacing: -.01em; }
-.hero h1 em { font-style: normal; color: var(--brand); }
-.hero-lead { font-size: 19px; color: var(--muted); margin-top: 20px; max-width: 34em; }
-.hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+.hero { position: relative; padding-block: 72px 96px; text-align: center; overflow: hidden; }
+.hero::before { content: ""; position: absolute; inset: -20% -10% auto -10%; height: 90%; background:
+  radial-gradient(40% 50% at 22% 30%, color-mix(in srgb, var(--brand) 16%, transparent), transparent 70%),
+  radial-gradient(38% 46% at 78% 24%, color-mix(in srgb, var(--nail) 18%, transparent), transparent 70%); pointer-events: none; }
+.hero > .wrap { position: relative; }
+.hero h1 { font-size: clamp(38px, 7.2vw, 78px); letter-spacing: -.02em; line-height: 1.12; max-width: 13em; margin-inline: auto; }
+.hero h1 em { font-style: normal; background: linear-gradient(120deg, var(--brand), var(--nail)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hero-lead { font-size: 19px; color: var(--muted); margin: 24px auto 0; max-width: 33em; }
+.chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; align-items: center; margin-top: 28px; }
+.chip { padding: 8px 18px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); font-weight: 800; font-size: 15px; color: var(--ink); box-shadow: 0 6px 16px -8px rgba(60,68,200,.25); }
+.chips .x { color: var(--muted); font-weight: 400; }
+.hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; justify-content: center; }
 .hero-note { margin-top: 18px; font-size: 14px; color: var(--muted); }
+.btn-main.big { min-height: 60px; padding: 0 34px; font-size: 18px; box-shadow: 0 18px 30px -14px rgba(29,33,64,.5); }
+
+/* 首屏展示：店家後台 + 客人手機 */
+.stage { position: relative; display: grid; grid-template-columns: 1fr 250px; gap: 0; align-items: end; max-width: 940px; margin: 64px auto 0; text-align: left; }
+.win { background: #F3F4F6; border-radius: 22px; box-shadow: 0 40px 70px -30px rgba(29,33,64,.4), 0 0 0 1px rgba(255,255,255,.6) inset; overflow: hidden; color: #4A5160; font-size: 13px; }
+.win-bar { display: flex; align-items: center; gap: 6px; padding: 12px 16px; background: #E9EBF1; }
+.win-bar i { width: 10px; height: 10px; border-radius: 50%; background: #CBD0DB; display: block; }
+.win-bar b { margin-left: 10px; font-size: 12px; color: #858D9C; font-weight: 700; }
+.win-body { padding: 18px 76px 22px 20px; display: grid; gap: 14px; }
+.win-title { display: flex; justify-content: space-between; align-items: baseline; }
+.win-title b { font-size: 16px; color: #3E4553; font-weight: 900; }
+.win-title span { font-size: 12px; color: #858D9C; }
+.todo-m { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.todo-m div { background: #F3F4F6; border-radius: 14px; padding: 10px 12px; box-shadow: 5px 5px 10px rgba(163,177,198,.5), -5px -5px 10px rgba(255,255,255,.85); }
+.todo-m small { display: block; font-size: 11px; color: #858D9C; font-weight: 700; }
+.todo-m strong { font-family: var(--latin); font-size: 24px; font-weight: 900; color: #3E4553; line-height: 1.2; }
+.todo-m .warn strong { color: #D9822B; }
+.rows { display: grid; gap: 8px; }
+.row { display: grid; grid-template-columns: 54px 1fr auto; gap: 12px; align-items: center; background: #F3F4F6; border-radius: 14px; padding: 10px 14px; box-shadow: inset 3px 3px 6px rgba(163,177,198,.4), inset -3px -3px 6px rgba(255,255,255,.85); }
+.row time { font-family: var(--latin); font-weight: 900; color: #4F64E8; }
+.row b { display: block; font-size: 13px; color: #3E4553; }
+.row span { font-size: 11px; color: #858D9C; }
+.tag { font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px; }
+.tag.ok { background: #DDF3EF; color: #0F6E62; }
+.tag.wait { background: #FFF1D9; color: #8A5A10; }
+.tag.go { background: #E8E9FB; color: #2F36A8; }
+.stage .phone { width: 250px; margin: 0 0 -28px -56px; position: relative; z-index: 2; }
+.float { position: absolute; z-index: 3; background: var(--surface); border-radius: 16px; padding: 10px 14px; font-size: 13px; font-weight: 800; color: var(--ink); box-shadow: 0 18px 30px -14px rgba(29,33,64,.35); display: flex; gap: 10px; align-items: center; }
+.float i { width: 28px; height: 28px; border-radius: 9px; display: grid; place-items: center; font-style: normal; font-size: 14px; }
+.float small { display: block; font-weight: 500; color: var(--muted); font-size: 11px; }
+.f1 { left: -22px; top: 56px; } .f1 i { background: var(--soon-soft); color: var(--soon); }
+.f2 { left: 300px; top: -34px; } .f2 i { background: var(--nail-soft); color: var(--nail); }
 
 /* 手機示意 */
 .phone { width: min(300px, 100%); margin-inline: auto; aspect-ratio: 300 / 600; max-width: 100%; border-radius: 44px; background: var(--ink); padding: 12px; box-shadow: 0 30px 60px -20px rgba(29,33,64,.35); }
-.screen { height: 100%; border-radius: 34px; background: #FFF5F7; overflow: hidden; display: flex; flex-direction: column; color: #4A3540; font-size: 13px; }
+.screen { height: 100%; border-radius: 34px; background: #F3F4F6; overflow: hidden; display: flex; flex-direction: column; color: #3E4553; font-size: 13px; }
 .scr-top { padding: 22px 18px 12px; display: flex; align-items: center; gap: 10px; }
-.scr-logo { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #FF9BB5, #E0578A); color: #fff; display: grid; place-items: center; font-weight: 900; }
+.scr-logo { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #6C83FF, #8B7BFA); color: #fff; display: grid; place-items: center; font-weight: 900; }
 .scr-top b { font-size: 15px; display: block; line-height: 1.2; }
-.scr-top span { color: #9A7F8B; font-size: 11px; }
+.scr-top span { color: #858D9C; font-size: 11px; }
 .scr-body { padding: 4px 14px; display: grid; gap: 8px; }
 .scr-label { font-weight: 900; font-size: 13px; margin-top: 6px; }
-.scr-svc { background: #fff; border-radius: 14px; padding: 10px 12px; display: flex; justify-content: space-between; border: 2px solid transparent; }
-.scr-svc.on { border-color: #FF8FAB; }
-.scr-svc em { font-style: normal; color: #D6457A; font-weight: 900; }
+.scr-svc { background: #F3F4F6; border-radius: 14px; padding: 10px 12px; display: flex; justify-content: space-between; border: 2px solid transparent; box-shadow: 4px 4px 9px rgba(163,177,198,.45), -4px -4px 9px rgba(255,255,255,.85); }
+.scr-svc.on { border-color: transparent; box-shadow: inset 3px 3px 6px rgba(163,177,198,.45), inset -3px -3px 6px rgba(255,255,255,.85); background: #F3F4F6; }
+.scr-svc em { font-style: normal; color: #4F64E8; font-weight: 900; }
 .scr-times { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
-.scr-times span { background: #fff; border-radius: 10px; text-align: center; padding: 6px 0; font-weight: 800; border: 1.5px solid #F6D9E2; font-family: var(--latin); }
-.scr-times span.on { background: #FFE4EC; border-color: #FF8FAB; color: #D6457A; }
-.scr-bar { margin-top: auto; background: #fff; padding: 12px 14px 18px; border-radius: 22px 22px 0 0; }
-.scr-btn { background: linear-gradient(135deg, #FF9BB5, #E0578A); color: #fff; text-align: center; border-radius: 999px; padding: 10px; font-weight: 900; }
+.scr-times span { border-radius: 10px; text-align: center; padding: 6px 0; font-weight: 800; border: 0; box-shadow: 3px 3px 6px rgba(163,177,198,.45), -3px -3px 6px rgba(255,255,255,.85); background: #F3F4F6; font-family: var(--latin); }
+.scr-times span.on { background: #F3F4F6; color: #4F64E8; box-shadow: inset 3px 3px 6px rgba(163,177,198,.45), inset -3px -3px 6px rgba(255,255,255,.85); }
+.scr-bar { margin-top: auto; background: #F3F4F6; box-shadow: 0 -4px 12px rgba(163,177,198,.3); padding: 12px 14px 18px; border-radius: 22px 22px 0 0; }
+.scr-btn { background: linear-gradient(135deg, #6C83FF, #8B7BFA); box-shadow: 0 6px 14px rgba(108,131,255,.35); color: #fff; text-align: center; border-radius: 999px; padding: 10px; font-weight: 900; }
+
+/* 煩惱 */
+.center-head { text-align: center; margin-inline: auto; justify-items: center; }
+.pains { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.pain { background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 26px; display: grid; gap: 10px; align-content: start; }
+.pain-i { width: 46px; height: 46px; border-radius: 15px; display: grid; place-items: center; }
+.pain-i svg { width: 22px; height: 22px; }
+.pain:nth-child(3n+1) .pain-i { background: var(--brand-soft); color: var(--brand); }
+.pain:nth-child(3n+2) .pain-i { background: var(--nail-soft); color: var(--nail); }
+.pain:nth-child(3n) .pain-i { background: var(--soon-soft); color: var(--soon); }
+.pain h3 { font-size: 18px; margin-top: 4px; }
+.pain p { color: var(--muted); font-size: 15px; }
+.bridge { margin-top: 48px; text-align: center; font-size: clamp(22px, 3.2vw, 32px); font-weight: 900; color: var(--ink); line-height: 1.4; text-wrap: balance; }
+.bridge span { color: var(--muted); }
 
 /* 模組 */
 .modules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
@@ -116,16 +169,62 @@ header { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; back
 .mod-next .mod-tag { background: var(--brand-soft); color: var(--brand); }
 .mod-next a { color: var(--brand); }
 
-/* 模組介紹 */
+/* 功能：大圖文區塊 */
 .feature { background: var(--surface); border-block: 1px solid var(--line); }
 .feature .eyebrow { color: var(--nail); }
-.feat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px 28px; }
-.feat { display: grid; gap: 8px; align-content: start; }
-.feat-icon { width: 44px; height: 44px; border-radius: 14px; background: var(--nail-soft); color: var(--nail); display: grid; place-items: center; }
-.feat-icon svg { width: 22px; height: 22px; }
-.feat h3 { font-size: 19px; margin-top: 6px; }
-.feat p { color: var(--muted); font-size: 15px; }
-.feat-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 44px; }
+.shows { display: grid; gap: 96px; }
+.show { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+.show.rev .show-vis { order: 2; }
+.show-text { display: grid; gap: 14px; align-content: center; }
+.show-text .kick { display: flex; align-items: center; gap: 10px; font-weight: 800; color: var(--nail); font-size: 15px; }
+.show-text .kick svg { width: 22px; height: 22px; }
+.show-text h3 { font-size: clamp(26px, 3.4vw, 36px); }
+.show-text p { color: var(--muted); }
+.ticks { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 10px; }
+.ticks li { display: flex; gap: 10px; font-weight: 700; color: var(--ink); font-size: 16px; }
+.ticks svg { width: 20px; height: 20px; color: var(--nail); flex: none; margin-top: 4px; }
+.show-vis { border-radius: 32px; padding: 36px 28px; display: grid; place-items: center; min-height: 400px; background: linear-gradient(145deg, var(--brand-soft), var(--nail-soft)); }
+.badge-new { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: 999px; background: var(--nail-soft); color: var(--nail); font-size: 12px; font-weight: 800; vertical-align: 3px; letter-spacing: .02em; }
+
+/* 展示卡片（固定淺色，不跟著深色模式） */
+.card-m { width: 100%; max-width: 360px; background: #F3F4F6; border-radius: 24px; padding: 22px; color: #4A5160; font-size: 13px; display: grid; gap: 12px; box-shadow: 0 30px 50px -26px rgba(29,33,64,.35); }
+.card-m h4 { margin: 0; font-size: 15px; color: #3E4553; font-weight: 900; }
+.opt { display: flex; justify-content: space-between; align-items: center; background: #F3F4F6; border-radius: 14px; padding: 12px 14px; box-shadow: 4px 4px 9px rgba(163,177,198,.45), -4px -4px 9px rgba(255,255,255,.85); font-weight: 700; }
+.opt.on { box-shadow: inset 3px 3px 6px rgba(163,177,198,.45), inset -3px -3px 6px rgba(255,255,255,.85); color: #4F64E8; }
+.opt em { font-style: normal; font-family: var(--latin); font-weight: 900; }
+.sum { display: flex; justify-content: space-between; border-top: 1px dashed #CBD0DB; padding-top: 12px; font-weight: 700; }
+.sum b { font-family: var(--latin); font-size: 18px; color: #3E4553; }
+.cta-m { text-align: center; background: linear-gradient(135deg, #6C83FF, #8B7BFA); color: #fff; border-radius: 999px; padding: 12px; font-weight: 900; box-shadow: 0 8px 16px rgba(108,131,255,.35); }
+.note-m { font-size: 12px; color: #858D9C; text-align: center; }
+
+.cal { width: 100%; max-width: 440px; background: #F3F4F6; border-radius: 24px; padding: 18px; display: grid; gap: 12px; box-shadow: 0 30px 50px -26px rgba(29,33,64,.35); color: #4A5160; font-size: 12px; }
+.cal-grid { display: grid; grid-template-columns: 38px repeat(3, 1fr); grid-template-rows: 26px repeat(6, 40px); gap: 4px; }
+.cal-grid .h { text-align: center; font-weight: 800; color: #3E4553; align-self: center; }
+.cal-grid .t { font-family: var(--latin); color: #858D9C; font-weight: 700; align-self: start; font-size: 11px; }
+.cal-grid .b { border-radius: 10px; padding: 6px 8px; font-weight: 800; line-height: 1.3; overflow: hidden; }
+.cal-grid .b small { display: block; font-weight: 500; opacity: .75; font-size: 11px; }
+.b.c1 { background: #E4E8FF; color: #2F3CA8; } .b.c2 { background: #EEE8FF; color: #5A3FC4; } .b.c3 { background: #DDF3EF; color: #0F6E62; } .b.c4 { background: #FFF1D9; color: #8A5A10; }
+.cal-top { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.chat { width: 100%; max-width: 360px; background: #E8ECF4; border-radius: 24px; padding: 20px; display: grid; gap: 12px; box-shadow: 0 30px 50px -26px rgba(29,33,64,.35); color: #3E4553; font-size: 14px; }
+.chat-h { display: flex; align-items: center; gap: 10px; font-weight: 900; }
+.chat-h .scr-logo { width: 30px; height: 30px; font-size: 13px; }
+.bub { background: #fff; border-radius: 4px 18px 18px 18px; padding: 14px 16px; line-height: 1.6; box-shadow: 0 6px 14px -8px rgba(29,33,64,.2); }
+.bub b { color: #4F64E8; }
+.bub-btn { text-align: center; background: #fff; border-radius: 14px; padding: 11px; font-weight: 900; color: #4F64E8; box-shadow: 0 6px 14px -8px rgba(29,33,64,.2); }
+.stat3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 4px; }
+.stat3 div { background: #F3F4F6; border-radius: 14px; padding: 10px; text-align: center; box-shadow: 4px 4px 9px rgba(163,177,198,.45), -4px -4px 9px rgba(255,255,255,.85); }
+.stat3 strong { font-family: var(--latin); font-size: 22px; font-weight: 900; display: block; line-height: 1.2; }
+.stat3 small { font-size: 11px; color: #858D9C; font-weight: 700; }
+
+/* 其他功能小卡 */
+.minis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 104px; }
+.mini { background: var(--bg); border: 1px solid var(--line); border-radius: 22px; padding: 24px; display: grid; gap: 8px; align-content: start; }
+.mini .feat-icon { width: 44px; height: 44px; border-radius: 14px; background: var(--nail-soft); color: var(--nail); display: grid; place-items: center; }
+.mini .feat-icon svg { width: 22px; height: 22px; }
+.mini h3 { font-size: 18px; margin-top: 6px; }
+.mini p { color: var(--muted); font-size: 14px; }
+.feat-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 48px; justify-content: center; }
 
 /* 流程 */
 .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; counter-reset: s; }
@@ -170,17 +269,40 @@ header { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; back
 footer { padding-block: 40px 56px; color: var(--muted); font-size: 14px; }
 .foot { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; border-top: 1px solid var(--line); padding-top: 28px; }
 
+.trust { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 22px; font-size: 14px; font-weight: 700; opacity: .85; }
+.trust span::before { content: "✓"; margin-right: 6px; }
+.fab { position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 30; display: inline-flex; align-items: center; gap: 8px; min-height: 52px; padding: 0 20px; border-radius: 999px; background: #06C755; color: #fff; font-weight: 800; font-size: 15px; text-decoration: none; box-shadow: 0 14px 26px -10px rgba(6,199,85,.6); }
+.fab svg { width: 20px; height: 20px; }
+
+@media (max-width: 960px) {
+  .stage { grid-template-columns: 1fr; justify-items: center; margin-top: 48px; }
+  .stage .phone { margin: -24px 0 0; width: 230px; }
+  .win-body { padding-right: 20px; }
+  .float { display: none; }
+}
 @media (max-width: 880px) {
   section { padding-block: 64px; }
-  .hero-grid, .contact { grid-template-columns: 1fr; }
-  .modules, .feat-grid, .steps { grid-template-columns: 1fr 1fr; }
+  .contact { grid-template-columns: 1fr; padding: 36px 24px; }
+  .modules, .steps, .pains, .minis { grid-template-columns: 1fr 1fr; }
+  .show, .show.rev { grid-template-columns: 1fr; gap: 28px; }
+  .show.rev .show-vis { order: 0; }
+  .shows { gap: 64px; }
+  .minis { margin-top: 64px; }
   .nav-links { display: none; }
   .nav .btn { margin-left: auto; }
-  .contact { padding: 36px 24px; }
 }
 @media (max-width: 600px) {
-  .modules, .feat-grid, .steps, .prices { grid-template-columns: 1fr; }
-  .hero { padding-block: 40px 64px; }
+  .modules, .steps, .prices, .pains, .minis { grid-template-columns: 1fr; }
+  .hero { padding-block: 40px 40px; }
+  .todo-m { grid-template-columns: repeat(2, 1fr); }
+  .chips .x { display: none; }
+  .chip { font-size: 14px; padding: 7px 14px; }
+  .show-vis { min-height: 0; padding: 24px 16px; }
+  .fab span { display: none; } .fab { padding: 0; width: 52px; justify-content: center; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in { opacity: 1; transform: none; }
 }
 </style>
 </head>
@@ -189,44 +311,80 @@ footer { padding-block: 40px 56px; color: var(--muted); font-size: 14px; }
   <div class="wrap nav">
     <a class="logo" href="#top" aria-label="店小幫 首頁"><svg class="logo-svg" width="34" height="34" viewBox="0 0 120 120" aria-hidden="true"><rect x="10" y="10" width="46" height="46" rx="14" fill="var(--ink)"/><rect x="64" y="10" width="46" height="46" rx="23" fill="#FF5C8D"/><rect x="10" y="64" width="46" height="46" rx="14" fill="var(--soon)"/><rect x="66.5" y="66.5" width="41" height="41" rx="12" fill="none" stroke="var(--ink)" stroke-width="7" stroke-dasharray="9 7"/><path d="M87 78 V96 M78 87 H96" stroke="var(--ink)" stroke-width="7" stroke-linecap="round"/></svg>店小幫</a>
     <nav class="nav-links" aria-label="主選單">
-      <a href="#modules">模組</a>
-      <a href="#nail">美甲美睫預約</a>
+      <a href="#pains">為什麼需要</a>
+      <a href="#nail">功能</a>
       <a href="pricing.html">價格</a>
       <a href="#faq">常見問題</a>
     </nav>
-    <a class="btn btn-main" href="#contact">加 LINE 諮詢</a>
+    <a class="btn btn-main" href="#contact">免費試用</a>
   </div>
 </header>
 
 <main id="top">
   <section class="hero">
-    <div class="wrap hero-grid">
-      <div>
-        <p class="eyebrow">給小店的 LINE 工具</p>
-        <h1>客人在 LINE 自己預約，<br>你只要<em>專心做好服務</em></h1>
-        <p class="hero-lead">店小幫把預約、訂金、提醒和營收，全部放進你的 LINE 官方帳號。客人不用下載 App，你用手機就能管理整家店。</p>
-        <div class="hero-cta">
-          <a class="btn btn-main" href="#contact">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>
-            加 LINE 諮詢
-          </a>
-          <a class="btn btn-ghost" id="demo-link" href="#nail">手機試玩</a>
-        </div>
-        <p class="hero-note">免費試用 14 天・不用綁約・我們陪你接好 LINE</p>
+    <div class="wrap">
+      <h1>客人在 LINE 自己預約，<br>你<em>專心做好服務</em></h1>
+      <p class="hero-lead">預約、訂金、提醒、回訪和營收，全部放進你的 LINE 官方帳號。客人不用下載 App，你用手機、平板或電腦都能管理整家店。</p>
+      <div class="chips" aria-label="三大重點"><span class="chip">LINE 預約</span><span class="x">×</span><span class="chip">線上訂金</span><span class="x">×</span><span class="chip">回訪提醒</span></div>
+      <div class="hero-cta">
+        <a class="btn btn-main big" href="#contact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>免費試用 14 天</a>
+        <a class="btn btn-ghost big" id="demo-link" href="#nail">手機試玩</a>
       </div>
-      <div class="phone" role="img" aria-label="美甲美睫預約畫面示意：選服務、選時間後確認預約">
-        <div class="screen">
-          <div class="scr-top"><div class="scr-logo">花</div><div><b>小花美甲美睫</b><span>示範店</span></div></div>
-          <div class="scr-body">
-            <div class="scr-label">選擇服務</div>
-            <div class="scr-svc on"><span>自然單根嫁接</span><em>$1,200</em></div>
-            <div class="scr-svc"><span>單色凝膠</span><em>$900</em></div>
-            <div class="scr-label">10/9（五）</div>
-            <div class="scr-times"><span>11:00</span><span class="on">12:00</span><span>13:30</span><span>14:00</span><span>15:30</span><span>16:00</span></div>
+      <p class="hero-note">不用綁信用卡・不用綁約・我們陪你接好 LINE</p>
+
+      <div class="stage" aria-label="店家後台與客人預約畫面示意">
+        <div class="float f1"><i>✓</i><div>訂金已收 $300<small>小美・10/10 14:00</small></div></div>
+        <div class="float f2"><i>↻</i><div>回訪提醒已送出<small>今天 3 位客人</small></div></div>
+        <div class="win">
+          <div class="win-bar"><i></i><i></i><i></i><b>店家後台</b></div>
+          <div class="win-body">
+            <div class="win-title"><b>今天 10/10（六）</b><span>小花美甲美睫</span></div>
+            <div class="todo-m">
+              <div><small>今天的客人</small><strong>5</strong></div>
+              <div class="warn"><small>待確認轉帳</small><strong>2</strong></div>
+              <div><small>待付訂金</small><strong>1</strong></div>
+              <div class="warn"><small>還沒按完成</small><strong>3</strong></div>
+            </div>
+            <div class="rows">
+              <div class="row"><time>11:00</time><div><b>王小美・自然單根嫁接</b><span>設計師 Amy</span></div><span class="tag ok">已付訂金</span></div>
+              <div class="row"><time>13:30</time><div><b>林佳蓉・單色凝膠</b><span>設計師 Bella</span></div><span class="tag wait">待確認轉帳</span></div>
+              <div class="row"><time>15:00</time><div><b>陳怡君・卸甲＋手足護理</b><span>設計師 Amy</span></div><span class="tag go">服務中</span></div>
+            </div>
           </div>
-          <div class="scr-bar"><div class="scr-btn">付訂金 $300 完成預約</div></div>
+        </div>
+        <div class="phone" role="img" aria-label="客人預約畫面：選服務、選時間後付訂金">
+          <div class="screen">
+            <div class="scr-top"><div class="scr-logo">花</div><div><b>小花美甲美睫</b><span>示範店</span></div></div>
+            <div class="scr-body">
+              <div class="scr-label">選擇服務</div>
+              <div class="scr-svc on"><span>自然單根嫁接</span><em>$1,200</em></div>
+              <div class="scr-svc"><span>單色凝膠</span><em>$900</em></div>
+              <div class="scr-label">10/9（五）</div>
+              <div class="scr-times"><span>11:00</span><span class="on">12:00</span><span>13:30</span><span>14:00</span><span>15:30</span><span>16:00</span></div>
+            </div>
+            <div class="scr-bar"><div class="scr-btn">付訂金 $300 完成預約</div></div>
+          </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section id="pains">
+    <div class="wrap">
+      <div class="sec-head center-head">
+        <p class="eyebrow">你是不是也這樣</p>
+        <h2>這些小事，每天都在吃掉你的時間</h2>
+        <p>手上在做指甲、做睫毛，手機還一直在響。這些事，其實可以交給系統。</p>
+      </div>
+      <div class="pains">
+        <div class="pain reveal"><span class="pain-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M9 11h6M9 14h3"/></svg></span><h3>「還有空嗎？」問不完</h3><p>客人一直私訊問時段，你做到一半還得停下來回訊息。</p></div>
+        <div class="pain reveal"><span class="pain-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20"/></svg></span><h3>沒收訂金，空等一場</h3><p>客人臨時不來，那個時段就白白空著，少了一筆收入。</p></div>
+        <div class="pain reveal"><span class="pain-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 2l4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></svg></span><h3>回頭客靠運氣</h3><p>補睫、卸甲的時間到了，沒人提醒，客人就去別家了。</p></div>
+        <div class="pain reveal"><span class="pain-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span><h3>月底對帳翻聊天紀錄</h3><p>誰付了、誰沒付、這個月賺多少，全靠記憶和截圖。</p></div>
+        <div class="pain reveal"><span class="pain-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4M16 2v4M3 10h18"/></svg></span><h3>同一時段被約兩次</h3><p>手寫行事曆一漏看，兩位客人同時到店，場面很尷尬。</p></div>
+        <div class="pain reveal"><span class="pain-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M8 7h6M8 11h6"/></svg></span><h3>客人資料散落各處</h3><p>上次的捲度、色號、過敏備註，要翻相簿才找得到。</p></div>
+      </div>
+      <p class="bridge reveal">交給店小幫，<br><span>你只要專心把指甲和睫毛做漂亮。</span></p>
     </div>
   </section>
 
@@ -262,45 +420,96 @@ footer { padding-block: 40px 56px; color: var(--muted); font-size: 14px; }
 
   <section id="nail" class="feature">
     <div class="wrap">
-      <div class="sec-head">
+      <div class="sec-head center-head">
         <p class="eyebrow">模組・美甲美睫預約</p>
-        <h2>專為美甲美睫店設計的預約系統</h2>
-        <p>從客人預約、付訂金，到你完成服務、月底看營收，每一步都幫你處理好。</p>
+        <h2>從客人預約，到月底看營收</h2>
+        <p>每一步，店小幫都幫你處理好。</p>
       </div>
-      <div class="feat-grid">
-        <div class="feat">
-          <span class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4M16 2v4M3 10h18"/></svg></span>
-          <h3>LINE 直接預約</h3>
-          <p>客人選服務、加購、指定設計師和時間就完成，只顯示還空著的時段，不會重複預約。</p>
+      <div class="shows">
+
+        <div class="show reveal">
+          <div class="show-text">
+            <p class="kick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>客人自己約，還先付訂金</p>
+            <h3>LINE 直接預約，空檔不重複</h3>
+            <p>客人選服務、加購、指定設計師和時間就完成，只顯示還空著的時段。訂金先收好，爽約的損失少一大半。</p>
+            <ul class="ticks">
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>只顯示空著的時段，不會重複預約</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>轉帳到你的帳戶免手續費，也可接綠界刷卡</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>取消與退訂金的規則，系統自動執行</li>
+            </ul>
+          </div>
+          <div class="show-vis">
+            <div class="card-m" role="img" aria-label="預約確認畫面：選好服務與時段，付訂金完成預約">
+              <h4>確認預約</h4>
+              <div class="opt on"><span>自然單根嫁接</span><em>$1,200</em></div>
+              <div class="opt"><span>10/9（五）12:00・Amy</span><em>120 分</em></div>
+              <div class="sum"><span>訂金</span><b>$300</b></div>
+              <div class="cta-m">付訂金完成預約</div>
+              <p class="note-m">付款後自動收到 LINE 預約通知</p>
+            </div>
+          </div>
         </div>
-        <div class="feat">
-          <span class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20M6 15h4"/></svg></span>
-          <h3>先收訂金，減少爽約</h3>
-          <p>客人直接轉帳到你的帳戶、免手續費；也可以接綠界，用信用卡、超商代碼付款。取消規則系統自動執行。</p>
+
+        <div class="show rev reveal">
+          <div class="show-text">
+            <p class="kick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6l2 2 4-4"/><path d="M3 14l2 2 4-4"/><path d="M13 6h8"/><path d="M13 14h8"/><path d="M13 20h8"/></svg>打開後台，今天要做的事一目了然<span class="badge-new">新功能</span></p>
+            <h3>待處理，一眼看完</h3>
+            <p>訂金還沒付、客人說已轉帳、做完還沒結帳，打開後台第一眼就看到，點一下直接處理。電腦上還能一次看完整週的預約。</p>
+            <ul class="ticks">
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>待確認轉帳、待付訂金，不再漏掉</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>多位設計師並排，排班一看就懂</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>手機、平板、電腦，版面自動調整</li>
+            </ul>
+          </div>
+          <div class="show-vis">
+            <div class="cal" role="img" aria-label="多位設計師並排的預約日曆示意">
+              <div class="cal-top"><span class="tag wait">待確認轉帳 2</span><span class="tag go">待付訂金 1</span><span class="tag ok">今天 5 位</span></div>
+              <div class="cal-grid">
+                <span></span><span class="h">Amy</span><span class="h">Bella</span><span class="h">Cathy</span>
+                <span class="t" style="grid-row:2">10:00</span><span class="t" style="grid-row:4">12:00</span><span class="t" style="grid-row:6">14:00</span>
+                <div class="b c1" style="grid-column:2;grid-row:2/4">王小美<small>單根嫁接</small></div>
+                <div class="b c2" style="grid-column:3;grid-row:3/5">林佳蓉<small>單色凝膠</small></div>
+                <div class="b c3" style="grid-column:4;grid-row:2/3">周欣怡<small>卸睫</small></div>
+                <div class="b c4" style="grid-column:2;grid-row:5/7">陳怡君<small>手足護理</small></div>
+                <div class="b c1" style="grid-column:4;grid-row:4/7">黃雅雯<small>濃密睫毛</small></div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="feat">
-          <span class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21a2 2 0 0 0 4 0"/></svg></span>
-          <h3>自動通知與提醒</h3>
-          <p>預約成功、前一天提醒都自動發到客人的 LINE，設計師也會收到新預約通知。</p>
+
+        <div class="show reveal">
+          <div class="show-text">
+            <p class="kick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 2l4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></svg>時間到了，自動叫客人回來<span class="badge-new">新功能</span></p>
+            <h3>回訪提醒，帶回頭客</h3>
+            <p>補睫、卸甲的時間到了，自動用 LINE 提醒客人預約下一次。提醒了幾位、幾位回來、回訪率多少，一目了然。</p>
+            <ul class="ticks">
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>每個服務各自設定幾天後提醒</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>訊息內容自己改，帶上客人名字</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>客人已經預約了，就不會再打擾</li>
+            </ul>
+          </div>
+          <div class="show-vis">
+            <div class="chat" role="img" aria-label="LINE 回訪提醒訊息示意與回訪統計">
+              <div class="chat-h"><span class="scr-logo">花</span>小花美甲美睫</div>
+              <div class="bub"><b>【小花美甲美睫】</b>佳蓉，上次的美睫已經 3 週囉～要不要順手補一下？<br>預約下一次：</div>
+              <div class="bub-btn">立即預約</div>
+              <div class="stat3"><div><strong>24</strong><small>已提醒</small></div><div><strong>9</strong><small>回來預約</small></div><div><strong>38%</strong><small>回訪率</small></div></div>
+            </div>
+          </div>
         </div>
-        <div class="feat">
-          <span class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M8 7h6M8 11h6"/></svg></span>
-          <h3>客人紀錄</h3>
-          <p>上次的捲度、色號、作品照片和過敏備註都記著，回頭客一來就知道怎麼做。</p>
-        </div>
-        <div class="feat">
-          <span class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
-          <h3>時段自己設定</h3>
-          <p>每 15、30、60 分鐘一格都可以，整理時間、營業時間、公休日隨時調整。</p>
-        </div>
-        <div class="feat">
-          <span class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span>
-          <h3>營收一眼看懂</h3>
-          <p>本月營收、設計師業績、熱門服務自動統計，不用再翻聊天紀錄對帳。</p>
-        </div>
+
       </div>
+
+      <div class="minis">
+        <div class="mini reveal"><span class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21a2 2 0 0 0 4 0"/></svg></span><h3>自動通知與提醒</h3><p>預約成功、前一天提醒都自動發到客人的 LINE，設計師也會收到新預約通知。</p></div>
+        <div class="mini reveal"><span class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M8 7h6M8 11h6"/></svg></span><h3>客人紀錄與同意書</h3><p>上次的捲度、色號、作品照片、過敏備註都記著，還能請客人在手機上簽電子同意書。</p></div>
+        <div class="mini reveal"><span class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9a3 3 0 0 0 0 6v3a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3a3 3 0 0 0 0-6V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2z"/><path d="M13 5v2M13 11v2M13 17v2"/></svg></span><h3>優惠券與生日禮</h3><p>新客折扣、節日優惠直接顯示在預約頁，壽星還會自動收到生日券。</p></div>
+        <div class="mini reveal"><span class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span><h3>營收一眼看懂</h3><p>本月營收、設計師業績、熱門服務自動統計，不用再翻聊天紀錄對帳。</p></div>
+      </div>
+
       <div class="feat-cta">
         <a class="btn btn-main" id="demo-link-2" href="#contact">手機試玩，30 秒體驗</a>
+        <a class="btn btn-ghost" href="pricing.html">看價格</a>
       </div>
     </div>
   </section>
@@ -362,9 +571,10 @@ footer { padding-block: 40px 56px; color: var(--muted); font-size: 14px; }
         <details><summary>客人需要下載 App 或註冊嗎？</summary><p>不用。客人在你的 LINE 官方帳號點「立即預約」就能約，用的是他本來的 LINE 帳號。</p></details>
         <details><summary>我還沒有 LINE 官方帳號，可以用嗎？</summary><p>可以。開官方帳號是免費的，我們會在設定時陪你一起開好。</p></details>
         <details><summary>LINE 訊息要另外付費嗎？</summary><p>LINE 官方帳號的免費方案每月有 200 則訊息。每筆預約大約會用到 3 則通知，預約量大的店可能需要升級 LINE 的付費方案，這筆費用由 LINE 向店家收取。</p></details>
-        <details><summary>訂金的錢會先經過你們嗎？</summary><p>不會。訂金直接進你自己的綠界帳戶。還沒申請綠界也能先用，只是客人預約時不需付訂金。</p></details>
+        <details><summary>訂金的錢會先經過你們嗎？</summary><p>不會。你可以讓客人直接轉帳到你自己的銀行帳戶，或是接上你自己的綠界帳戶，錢都直接進你的口袋。不想收訂金也可以關掉。</p></details>
         <details><summary>要怎麼繳費？</summary><p>在管理主控台選好方案，系統會給你一組 ATM 轉帳帳號或超商繳費代碼，繳完幾分鐘內自動開通，不用綁信用卡。</p></details>
         <details><summary>忘記繳費會怎樣？</summary><p>到期前 7 天、3 天和當天，系統都會用 LINE 提醒你。到期後還有 5 天可以補繳，超過才會暫停線上預約，資料都會保留，繳費後立刻恢復。</p></details>
+        <details><summary>可以用電腦或平板管理嗎？</summary><p>可以。後台在手機、平板、電腦上都能用，版面會自動調整。設計師各自用自己的 LINE 登入，只看得到自己的預約。</p></details>
         <details><summary>可以隨時取消嗎？</summary><p>可以。沒有綁約，也不會自動扣款，不想用了只要不再繳費就好。</p></details>
       </div>
     </div>
@@ -377,6 +587,7 @@ footer { padding-block: 40px 56px; color: var(--muted); font-size: 14px; }
           <h2>加 LINE，聊聊你的店</h2>
           <p>想試玩、想問價格，或希望我們開發你的行業模組，都歡迎直接傳訊息。</p>
           <a class="btn btn-main" id="line-btn" href="#contact">加入 LINE 好友</a>
+          <p class="trust"><span>免費試用 14 天</span><span>不用綁信用卡</span><span>隨時可取消</span></p>
         </div>
         <div class="line-box">
           <div class="qr" id="qr" role="img" aria-label="加入店小幫 LINE 好友的 QR code"></div>
@@ -391,9 +602,11 @@ footer { padding-block: 40px 56px; color: var(--muted); font-size: 14px; }
 <footer>
   <div class="wrap foot">
     <span>© 2026 店小幫</span>
-    <span>給小店的 LINE 工具</span>
+    <span><a href="terms.html">服務條款</a>・<a href="refund.html">退款政策</a>・<a href="privacy.html">隱私權政策</a></span>
   </div>
 </footer>
+
+<a class="fab" href="#contact" aria-label="加 LINE 諮詢"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg><span>LINE 諮詢</span></a>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
@@ -415,6 +628,13 @@ try {
     new QRCode(document.getElementById('qr'), { text: CONFIG.lineUrl, width: 124, height: 124, colorDark: '#1D2140', colorLight: '#FFFFFF' });
   }
 } catch (e) {}
+try {
+  const els = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12 });
+    els.forEach((el) => io.observe(el));
+  } else els.forEach((el) => el.classList.add('in'));
+} catch (e) { document.querySelectorAll('.reveal').forEach((el) => el.classList.add('in')); }
 </script>
 </body>
 </html>
