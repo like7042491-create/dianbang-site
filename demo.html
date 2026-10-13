@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<title>小花美甲美睫・預約展示</title>
+<title>店小幫・預約展示</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
@@ -191,6 +191,15 @@ h1, h2, h3, .sec-title, .shop h1 { color: var(--heading); }
 .stack { gap: 16px; }
 .stats { gap: 14px; }
 .toast { background: var(--heading); }
+/* 客人紀錄與分類 */
+.rec { display: grid; gap: 8px; padding: 12px 14px; border-radius: 16px; background: var(--base); box-shadow: var(--inset-sm); }
+.rec-h { font-weight: 900; color: var(--heading); font-size: 14px; display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+.rec-h small { font-weight: 600; color: var(--muted); font-size: 12px; }
+.cat-card { display: grid; gap: 10px; }
+.cat-card.off .cat-fields { opacity: .45; }
+.cat-fields { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 13px; }
+.cat-fields .muted { font-size: 13px; margin-right: 2px; }
+.fld { padding: 3px 10px; border-radius: 999px; background: var(--pink-soft); color: var(--accent); font-weight: 700; font-size: 12px; }
 /* 待處理小卡 */
 .todo { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 6px 0 14px; }
 .todo button { display: grid; justify-items: start; gap: 2px; padding: 12px 14px; text-align: left; position: relative; }
@@ -218,6 +227,15 @@ h1, h2, h3, .sec-title, .shop h1 { color: var(--heading); }
 
 <script>
 // ---------- 範例資料 ----------
+// 分類：店家可以自己開關、改名、設定客人紀錄欄位（這裡是各行業範本的示範）
+const CATS = [
+  { id: 'lash', name: '美睫', on: true, fields: [['捲度', 'C 捲'], ['長度', '10–12 mm'], ['根數', '約 100 根'], ['過敏備註', '無']] },
+  { id: 'nail', name: '美甲', on: true, fields: [['甲型', '橢圓'], ['上次色號', '奶茶色'], ['甲面狀況', '偏薄、易斷'], ['過敏備註', '無']] },
+  { id: 'face', name: '做臉', on: true, fields: [['膚質', '混合肌'], ['敏感狀況', '換季容易泛紅'], ['使用產品', '保濕安瓶'], ['療程進度', '第 2 次']] },
+  { id: 'wax', name: '除毛', on: true, fields: [['部位', '腋下'], ['毛髮狀況', '中等'], ['膚況', '易起紅點'], ['上次間隔', '約 4 週']] },
+  { id: 'body', name: '美體按摩', on: true, fields: [['力道偏好', '中等'], ['加強部位', '肩頸'], ['避開部位', '下背舊傷'], ['精油偏好', '薰衣草']] },
+  { id: 'brow', name: '霧眉', on: true, fields: [['眉型', '自然平眉'], ['色料', '深咖啡'], ['階段', '首次操作'], ['補色提醒', '約 4–6 週後']] },
+];
 const SERVICES = [
   { id: 's1', cat: 'lash', name: '自然單根嫁接', dur: 90, price: 1200, desc: '日常裸感，約 80–100 根' },
   { id: 's2', cat: 'lash', name: '濃密款嫁接', dur: 120, price: 1600, desc: '放大眼神，約 140 根' },
@@ -227,22 +245,37 @@ const SERVICES = [
   { id: 's6', cat: 'nail', name: '造型凝膠', dur: 90, price: 1400, desc: '可帶參考圖，依款式加價' },
   { id: 's7', cat: 'nail', name: '法式凝膠', dur: 75, price: 1200, desc: '經典法式或跳色法式' },
   { id: 's8', cat: 'nail', name: '卸甲＋保養', dur: 40, price: 400, desc: '卸除舊凝膠＋甘皮整理' },
+  { id: 's9', cat: 'face', name: '基礎保濕護理', dur: 60, price: 1500, desc: '清潔、去角質、保濕敷膜' },
+  { id: 's10', cat: 'face', name: '深層清潔做臉', dur: 90, price: 2000, desc: '粉刺清潔＋鎮定' },
+  { id: 's11', cat: 'face', name: '眼周保養', dur: 30, price: 800, desc: '可單獨或搭配做臉' },
+  { id: 's12', cat: 'wax', name: '腋下除毛', dur: 20, price: 500, desc: '蜜蠟除毛，含舒緩' },
+  { id: 's13', cat: 'wax', name: '手臂除毛', dur: 40, price: 900, desc: '前臂或全手臂' },
+  { id: 's14', cat: 'wax', name: '小腿除毛', dur: 40, price: 1000, desc: '膝蓋以下' },
+  { id: 's15', cat: 'body', name: '肩頸放鬆', dur: 60, price: 1200, desc: '著重肩頸與上背' },
+  { id: 's16', cat: 'body', name: '全身芳療按摩', dur: 90, price: 1800, desc: '精油可現場挑選' },
+  { id: 's17', cat: 'brow', name: '霧眉', dur: 150, price: 6800, desc: '含眉型設計與首次操作' },
+  { id: 's18', cat: 'brow', name: '霧眉補色', dur: 90, price: 2500, desc: '首次操作後的補色' },
 ];
 const ADDONS = [
   { id: 'a1', cat: 'lash', name: '角蛋白護理', dur: 15, price: 300 },
   { id: 'a2', cat: 'lash', name: '彩色睫毛', dur: 0, price: 200 },
   { id: 'a3', cat: 'nail', name: '手部去角質', dur: 20, price: 300 },
   { id: 'a4', cat: 'nail', name: '延甲（全手）', dur: 30, price: 500 },
+  { id: 'a5', cat: 'face', name: '肩頸舒緩', dur: 15, price: 300 },
+  { id: 'a6', cat: 'wax', name: '鎮定修護', dur: 10, price: 200 },
+  { id: 'a7', cat: 'body', name: '熱敷加強', dur: 15, price: 300 },
 ];
 const STAFF = [
-  { id: 't1', name: '佳瑩', cats: ['lash', 'nail'] },
-  { id: 't2', name: '小安', cats: ['lash'] },
-  { id: 't3', name: '米雅', cats: ['nail'] },
+  { id: 't1', name: '佳瑩', cats: ['lash', 'nail', 'brow'] },
+  { id: 't2', name: '小安', cats: ['lash', 'face', 'wax'] },
+  { id: 't3', name: '米雅', cats: ['nail', 'face', 'wax', 'body'] },
 ];
 const NAMES = ['林小姐', '陳怡君', '張小涵', '黃佩珊', '吳欣妤', '劉雅婷', '蔡宜蓁', '楊詩涵', '許庭瑜', '鄭筱婷', '謝語彤', '洪佳穎'];
 const DEPOSIT = 300;
 const WD = ['日', '一', '二', '三', '四', '五', '六'];
 const svcById = Object.fromEntries(SERVICES.map((s) => [s.id, s]));
+const catById = Object.fromEntries(CATS.map((c) => [c.id, c]));
+const onCats = () => CATS.filter((c) => c.on);
 const addById = Object.fromEntries(ADDONS.map((a) => [a.id, a]));
 const staffById = Object.fromEntries(STAFF.map((s) => [s.id, s]));
 
@@ -297,7 +330,7 @@ function overlaps(date, staffId, start, dur, ignoreId) {
       for (let i = 0; i < count; i++) {
         const svc = pick(SERVICES.filter((s) => st.cats.includes(s.cat)));
         const addPool = ADDONS.filter((a) => a.cat === svc.cat);
-        const adds = rnd() < 0.35 ? [pick(addPool).id] : [];
+        const adds = addPool.length && rnd() < 0.35 ? [pick(addPool).id] : [];
         const dur = svc.dur + adds.reduce((t, a) => t + addById[a].dur, 0);
         let start = null;
         for (let tries = 0; tries < 12; tries++) {
@@ -316,7 +349,7 @@ function overlaps(date, staffId, start, dur, ignoreId) {
         S.bookings.push({
           id: 'b' + (++n), date, start, dur, svc: svc.id, adds, staff: st.id,
           name: pick(NAMES), phone: '09' + String(10000000 + Math.floor(rnd() * 89999999)),
-          note: rnd() < 0.15 ? pick(['眼睛較敏感', '想要比上次再翹一點', '會帶參考圖', '對膠過敏，請用敏感膠']) : '',
+          note: rnd() < 0.15 ? pick(['皮膚較敏感', '想跟上次一樣', '會帶參考圖', '對部分產品過敏，請先確認']) : '',
           status, total, final, deposit: DEPOSIT, depositPaid,
           refunded: status === 'cancelled' && depositPaid && rnd() < 0.5, isNew: false,
         });
@@ -364,13 +397,13 @@ function stepsBar(step) {
 function renderBook() {
   const b = S.book;
   const { svc, dur, total } = current();
-  let html = `<div class="shop"><div class="logo">花</div><div><h1>小花美甲美睫</h1><div class="muted">台北市大安區・捷運忠孝復興站</div></div></div>`;
+  let html = `<div class="shop"><div class="logo">花</div><div><h1>小花美學工作室</h1><div class="muted">台北市大安區・捷運忠孝復興站</div></div></div>`;
   let bar = '';
 
   if (b.step === 1) {
     html += stepsBar(1);
     html += `<div class="chips" style="margin-top:14px">
-      ${[['lash', '美睫'], ['nail', '美甲']].map(([k, l]) => `<button class="chip ${b.cat === k ? 'on' : ''}" data-act="cat" data-v="${k}">${l}</button>`).join('')}</div>`;
+      ${onCats().map((c) => `<button class="chip ${b.cat === c.id ? 'on' : ''}" data-act="cat" data-v="${c.id}" aria-pressed="${b.cat === c.id}">${c.name}</button>`).join('')}</div>`;
     html += `<h2 class="sec-title">選擇服務</h2><div class="stack">`;
     for (const s of SERVICES.filter((x) => x.cat === b.cat)) {
       html += `<button class="svc ${b.svc === s.id ? 'on' : ''}" data-act="svc" data-v="${s.id}" aria-pressed="${b.svc === s.id}">
@@ -380,12 +413,15 @@ function renderBook() {
     }
     html += `</div>`;
     if (svc) {
-      html += `<h2 class="sec-title">加購 <small>可複選</small></h2><div class="chips">
-        ${ADDONS.filter((a) => a.cat === b.cat).map((a) => `<button class="chip ${b.adds.includes(a.id) ? 'on' : ''}" data-act="add" data-v="${a.id}">${a.name} +${money(a.price)}</button>`).join('')}</div>`;
-      html += `<h2 class="sec-title">指定設計師</h2><div class="chips">
+      const addPool = ADDONS.filter((a) => a.cat === b.cat);
+      if (addPool.length) html += `<h2 class="sec-title">加購 <small>可複選</small></h2><div class="chips">
+        ${addPool.map((a) => `<button class="chip ${b.adds.includes(a.id) ? 'on' : ''}" data-act="add" data-v="${a.id}">${a.name} +${money(a.price)}</button>`).join('')}</div>`;
+      html += `<h2 class="sec-title">指定服務人員</h2><div class="chips">
         <button class="chip ${b.staff === 'any' ? 'on' : ''}" data-act="staff" data-v="any">不指定</button>
         ${STAFF.filter((s) => s.cats.includes(b.cat)).map((s) => `<button class="chip ${b.staff === s.id ? 'on' : ''}" data-act="staff" data-v="${s.id}">${s.name}</button>`).join('')}</div>`;
     }
+    const cat = catById[b.cat];
+    html += `<p class="note" style="margin-top:20px"><b>展示說明</b>：「${cat.name}」的客人紀錄範例欄位是 ${cat.fields.map((f) => f[0]).join('、')}。分類與紀錄欄位可在店家後台自行設定，不用的就不開，切到「店家後台 → 分類」試試看。</p>`;
     bar = `<div class="bar"><div class="bar-sum"><span>${svc ? `約 ${dur} 分鐘` : '請先選一項服務'}</span><strong class="num">${money(total)}</strong></div>
       <button class="btn" data-act="go" data-v="2" ${svc ? '' : 'disabled'}>選時間</button></div>`;
   }
@@ -420,7 +456,7 @@ function renderBook() {
     html += `<h2 class="sec-title">預約內容</h2><div class="card"><dl class="kv">
       <div><dt>服務</dt><dd>${svc.name}${b.adds.length ? '＋' + b.adds.map((a) => addById[a].name).join('、') : ''}</dd></div>
       <div><dt>時間</dt><dd class="num">${md(b.date)}（${wd(b.date)}）${hm(b.time)}–${hm(b.time + dur)}</dd></div>
-      <div><dt>設計師</dt><dd>${staffName}</dd></div>
+      <div><dt>服務人員</dt><dd>${staffName}</dd></div>
       <div><dt>金額</dt><dd class="num">${money(total)}（訂金 ${money(DEPOSIT)} 可折抵）</dd></div></dl></div>`;
     html += `<h2 class="sec-title">您的資料</h2><div class="stack">
       <label class="f" for="f-name">姓名<input class="input" id="f-name" data-in="name" value="${esc(b.name)}" placeholder="例如：王小美" autocomplete="name"></label>
@@ -450,11 +486,11 @@ function renderBook() {
       <h2 style="text-align:center;font-size:22px;font-weight:900">預約完成</h2>
       <p class="muted" style="text-align:center;margin:4px 0 0">訂金已付，時段幫您保留好了</p>
       <h2 class="sec-title">客人會在 LINE 收到這則通知</h2>
-      <div class="msg"><b>【小花美甲美睫】預約確認</b>
+      <div class="msg"><b>【小花美學工作室】預約確認</b>
         <span>${esc(x.name)} 您好，已收到您的訂金 ${money(x.deposit)}。</span>
         <span>服務：${svcById[x.svc].name}</span>
         <span>時間：${md(x.date)}（${wd(x.date)}）${hm(x.start)}</span>
-        <span>設計師：${staffById[x.staff].name}</span>
+        <span>服務人員：${staffById[x.staff].name}</span>
         <span class="muted">前一天晚上會再提醒您一次。</span></div>
       <div class="note" style="margin-top:16px">這筆預約已經出現在店家後台，切到「店家後台」就看得到。</div>`;
     bar = `<div class="bar"><div class="row"><button class="btn-line" data-act="again">再約一次</button>
@@ -508,7 +544,9 @@ function renderList() {
         <div><dt>加購</dt><dd>${b.adds.length ? b.adds.map((x) => addById[x].name).join('、') : '—'}</dd></div>
         <div><dt>金額</dt><dd class="num">${b.status === 'completed' ? `實收 ${money(income(b))}` : `預估 ${money(b.total)}`}</dd></div>
         <div><dt>訂金</dt><dd>${b.depositPaid ? (b.refunded ? `${money(b.deposit)}（已退）` : `${money(b.deposit)} 已付`) : '尚未付'}</dd></div>
-        ${b.note ? `<div><dt>備註</dt><dd>${esc(b.note)}</dd></div>` : ''}</dl>`;
+        ${b.note ? `<div><dt>備註</dt><dd>${esc(b.note)}</dd></div>` : ''}</dl>
+        <div class="rec"><div class="rec-h">客人紀錄<small>${catById[svc.cat].name}欄位・範例</small></div><dl class="kv">
+        ${catById[svc.cat].fields.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl></div>`;
       if (b.status === 'confirmed' || b.status === 'pending') {
         if (a.finishing === b.id) {
           html += `<div class="stack"><label class="f" for="f-final">實收金額（元）<input class="input num" id="f-final" inputmode="numeric" value="${b.total}"></label>
@@ -546,6 +584,19 @@ function renderSchedule() {
   return html;
 }
 
+function renderCats() {
+  let html = `<h2 class="sec-title">服務分類 <small>開了才會出現在預約頁</small></h2><div class="stack">`;
+  for (const c of CATS) {
+    const n = SERVICES.filter((x) => x.cat === c.id).length;
+    html += `<div class="card cat-card ${c.on ? '' : 'off'}">
+      <div class="hours" style="border:0;padding:0"><label class="toggle"><input type="checkbox" id="cat-${c.id}" data-act="catopen" data-v="${c.id}" ${c.on ? 'checked' : ''}><span class="track"></span>${c.name}</label>
+      <span class="muted">${n} 項服務</span></div>
+      <div class="cat-fields"><span class="muted">客人紀錄欄位</span>${c.fields.map((f) => `<span class="fld">${f[0]}</span>`).join('')}</div></div>`;
+  }
+  html += `</div><p class="note" style="margin-top:16px">這是行業範本的示範。正式版開店時可以選範本當起點，分類名稱、服務項目與客人紀錄欄位都能自己改或新增；只做其中一種，就只開那一個。</p>`;
+  return html;
+}
+
 function rangeOf(p) {
   const d = parse(TODAY);
   if (p === 'today') return [TODAY, TODAY];
@@ -580,7 +631,7 @@ function renderReport() {
     <div class="card stat"><b style="color:var(--bad)">${inR.filter((b) => b.status === 'no_show').length}</b><span class="muted">爽約</span></div>
     <div class="card stat"><b>${inR.filter((b) => b.status === 'cancelled').length}</b><span class="muted">取消</span></div></div>`;
   if (upcoming.length) html += `<p class="note" style="margin-top:12px">這段期間還有 ${upcoming.length} 筆還沒服務，預估 ${money(upcoming.reduce((t, b) => t + b.total, 0))}，完成後才會算進營收。</p>`;
-  if (byStaff.length) html += `<h2 class="sec-title">設計師業績</h2>${list(byStaff)}`;
+  if (byStaff.length) html += `<h2 class="sec-title">服務人員業績</h2>${list(byStaff)}`;
   if (bySvc.length) html += `<h2 class="sec-title">熱門服務</h2>${list(bySvc)}`;
   if (!done.length && !upcoming.length) html += `<div class="card muted" style="margin-top:12px;text-align:center">這段期間還沒有營收紀錄</div>`;
   html += `<p class="muted" style="margin-top:16px">營收以「完成服務」時填的實收金額計算；爽約或取消且訂金沒退的，算進沒收訂金。</p>`;
@@ -589,9 +640,9 @@ function renderReport() {
 
 function renderAdmin() {
   const a = S.admin;
-  let html = `<div class="shop"><div class="logo">花</div><div><h1>店家後台</h1><div class="muted">佳瑩（店長）・小花美甲美睫</div></div></div>`;
-  html += a.tab === 'list' ? renderList() : a.tab === 'schedule' ? renderSchedule() : renderReport();
-  const bar = `<nav class="tabbar">${[['list', '預約'], ['schedule', '班表'], ['report', '營收']].map(([k, l]) => `<button class="tab ${a.tab === k ? 'on' : ''}" data-act="tab" data-v="${k}">${l}</button>`).join('')}</nav>`;
+  let html = `<div class="shop"><div class="logo">花</div><div><h1>店家後台</h1><div class="muted">佳瑩（店長）・小花美學工作室</div></div></div>`;
+  html += a.tab === 'list' ? renderList() : a.tab === 'schedule' ? renderSchedule() : a.tab === 'cats' ? renderCats() : renderReport();
+  const bar = `<nav class="tabbar">${[['list', '預約'], ['schedule', '班表'], ['cats', '分類'], ['report', '營收']].map(([k, l]) => `<button class="tab ${a.tab === k ? 'on' : ''}" data-act="tab" data-v="${k}">${l}</button>`).join('')}</nav>`;
   return { html, bar };
 }
 
@@ -679,6 +730,14 @@ document.addEventListener('click', (e) => {
 
 document.addEventListener('change', (e) => {
   const el = e.target;
+  if (el.dataset.act === 'catopen') {
+    const c = catById[el.dataset.v];
+    if (!el.checked && onCats().length === 1) { toast('至少要開一個分類'); render(); return; }
+    c.on = el.checked;
+    if (!catById[S.book.cat].on) Object.assign(S.book, { step: 1, cat: onCats()[0].id, svc: null, adds: [], staff: 'any', date: null, time: null });
+    toast(c.on ? `已開啟「${c.name}」` : `已關閉「${c.name}」，預約頁不再顯示`);
+    render(); return;
+  }
   if (el.dataset.act === 'dayopen') {
     const d = Number(el.dataset.v);
     S.settings.hours[d] = el.checked ? [11, 20] : null;

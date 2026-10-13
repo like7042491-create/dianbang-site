@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<meta name="description" content="店小幫：給美甲、美睫小店的 LINE 預約系統。客人在 LINE 自己預約、付訂金、收提醒，免費試用 14 天。">
-<title>店小幫</title>
+<meta name="description" content="店小幫：給美業小店的 LINE 預約系統，美甲、美睫、做臉、除毛、美體按摩、霧眉都適用。客人在 LINE 自己預約、付訂金、收提醒，免費試用 14 天。">
+<title>店小幫｜美業小店的 LINE 預約系統</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
@@ -171,6 +171,18 @@ header { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; back
 .mod-next .mod-tag { background: var(--brand-soft); color: var(--brand); }
 .mod-next a { color: var(--brand); }
 
+/* 適用行業 */
+.inds-box { background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: 28px; display: grid; gap: 18px; }
+.inds { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+.inds li { display: inline-flex; align-items: center; gap: 8px; padding: 8px 18px; border-radius: 999px; background: var(--bg); border: 1px solid var(--line); font-weight: 800; font-size: 15px; color: var(--ink); }
+.inds li::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--brand); flex: none; }
+.inds li:nth-child(3n+2)::before { background: var(--nail); }
+.inds li:nth-child(3n)::before { background: var(--soon); }
+.inds li small { font-weight: 500; color: var(--muted); font-size: 13px; }
+.inds-note { display: flex; gap: 10px; align-items: flex-start; font-weight: 700; color: var(--ink); }
+.inds-note svg { width: 20px; height: 20px; color: var(--soon); flex: none; margin-top: 4px; }
+.inds-sub { color: var(--muted); font-size: 15px; }
+
 /* 功能：大圖文區塊 */
 .feature { background: var(--surface); border-block: 1px solid var(--line); }
 .feature .eyebrow { color: var(--nail); }
@@ -300,6 +312,8 @@ footer { padding-block: 40px 56px; color: var(--muted); font-size: 14px; }
   .todo-m { grid-template-columns: repeat(2, 1fr); }
   .chips .x { display: none; }
   .chip { font-size: 14px; padding: 7px 14px; }
+  .inds-box { padding: 22px 18px; }
+  .inds li { font-size: 14px; padding: 7px 14px; }
   .show-vis { min-height: 0; padding: 24px 16px; }
   .fab span { display: none; } .fab { padding: 0; width: 52px; justify-content: center; }
 }
@@ -328,7 +342,7 @@ footer { padding-block: 40px 56px; color: var(--muted); font-size: 14px; }
   <section class="hero">
     <div class="wrap">
       <h1>客人在 LINE 自己預約，<br>你<em>專心做好服務</em></h1>
-      <p class="hero-lead">預約、訂金、提醒、回訪和營收，全部放進你的 LINE 官方帳號。客人不用下載 App，你用手機、平板或電腦都能管理整家店。</p>
+      <p class="hero-lead">給美甲、美睫、做臉、除毛、美體按摩、霧眉等美業小店。預約、訂金、提醒、回訪和營收，全部放進你的 LINE 官方帳號。客人不用下載 App，你用手機、平板或電腦都能管理整家店。</p>
       <div class="chips" aria-label="三大重點"><span class="chip">LINE 預約</span><span class="x">×</span><span class="chip">線上訂金</span><span class="x">×</span><span class="chip">回訪提醒</span></div>
       <div class="hero-cta">
         <a class="btn btn-main big" href="#contact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>免費試用 14 天</a>
@@ -342,7 +356,7 @@ footer { padding-block: 40px 56px; color: var(--muted); font-size: 14px; }
         <div class="win">
           <div class="win-bar"><i></i><i></i><i></i><b>店家後台</b></div>
           <div class="win-body">
-            <div class="win-title"><b>今天 10/10（六）</b><span>小花美甲美睫</span></div>
+            <div class="win-title"><b>今天 10/10（六）</b><span>小花美學工作室</span></div>
             <div class="todo-m">
               <div><small>今天的客人</small><strong>5</strong></div>
               <div class="warn"><small>待確認轉帳</small><strong>2</strong></div>
@@ -350,19 +364,19 @@ footer { padding-block: 40px 56px; color: var(--muted); font-size: 14px; }
               <div class="warn"><small>還沒按完成</small><strong>3</strong></div>
             </div>
             <div class="rows">
-              <div class="row"><time>11:00</time><div><b>王小美・自然單根嫁接</b><span>設計師 Amy</span></div><span class="tag ok">已付訂金</span></div>
-              <div class="row"><time>13:30</time><div><b>林佳蓉・單色凝膠</b><span>設計師 Bella</span></div><span class="tag wait">待確認轉帳</span></div>
-              <div class="row"><time>15:00</time><div><b>陳怡君・卸甲＋手足護理</b><span>設計師 Amy</span></div><span class="tag go">服務中</span></div>
+              <div class="row"><time>11:00</time><div><b>王小美・自然單根嫁接</b><span>服務人員 Amy</span></div><span class="tag ok">已付訂金</span></div>
+              <div class="row"><time>13:30</time><div><b>林佳蓉・保濕護理</b><span>服務人員 Bella</span></div><span class="tag wait">待確認轉帳</span></div>
+              <div class="row"><time>15:00</time><div><b>陳怡君・霧眉補色</b><span>服務人員 Amy</span></div><span class="tag go">服務中</span></div>
             </div>
           </div>
         </div>
         <div class="phone" role="img" aria-label="客人預約畫面：選服務、選時間後付訂金">
           <div class="screen">
-            <div class="scr-top"><div class="scr-logo">花</div><div><b>小花美甲美睫</b><span>示範店</span></div></div>
+            <div class="scr-top"><div class="scr-logo">花</div><div><b>小花美學工作室</b><span>示範店</span></div></div>
             <div class="scr-body">
               <div class="scr-label">選擇服務</div>
               <div class="scr-svc on"><span>自然單根嫁接</span><em>$1,200</em></div>
-              <div class="scr-svc"><span>單色凝膠</span><em>$900</em></div>
+              <div class="scr-svc"><span>保濕護理</span><em>$1,500</em></div>
               <div class="scr-label">10/9（五）</div>
               <div class="scr-times"><span>11:00</span><span class="on">12:00</span><span>13:30</span><span>14:00</span><span>15:30</span><span>16:00</span></div>
             </div>
@@ -378,17 +392,17 @@ footer { padding-block: 40px 56px; color: var(--muted); font-size: 14px; }
       <div class="sec-head center-head">
         <p class="eyebrow">你是不是也這樣</p>
         <h2>這些小事，每天都在吃掉你的時間</h2>
-        <p>手上在做指甲、做睫毛，手機還一直在響。這些事，其實可以交給系統。</p>
+        <p>手上正在服務客人，手機還一直在響。這些事，其實可以交給系統。</p>
       </div>
       <div class="pains">
         <div class="pain reveal"><span class="pain-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M9 11h6M9 14h3"/></svg></span><h3>「還有空嗎？」問不完</h3><p>客人一直私訊問時段，你做到一半還得停下來回訊息。</p></div>
         <div class="pain reveal"><span class="pain-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20"/></svg></span><h3>沒收訂金，空等一場</h3><p>客人臨時不來，那個時段就白白空著，少了一筆收入。</p></div>
-        <div class="pain reveal"><span class="pain-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 2l4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></svg></span><h3>回頭客靠運氣</h3><p>補睫、卸甲的時間到了，沒人提醒，客人就去別家了。</p></div>
+        <div class="pain reveal"><span class="pain-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 2l4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></svg></span><h3>回頭客靠運氣</h3><p>補睫、卸甲、霧眉補色的時間到了，沒人提醒，客人就去別家了。</p></div>
         <div class="pain reveal"><span class="pain-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span><h3>月底對帳翻聊天紀錄</h3><p>誰付了、誰沒付、這個月賺多少，全靠記憶和截圖。</p></div>
         <div class="pain reveal"><span class="pain-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4M16 2v4M3 10h18"/></svg></span><h3>同一時段被約兩次</h3><p>手寫行事曆一漏看，兩位客人同時到店，場面很尷尬。</p></div>
-        <div class="pain reveal"><span class="pain-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M8 7h6M8 11h6"/></svg></span><h3>客人資料散落各處</h3><p>上次的捲度、色號、過敏備註，要翻相簿才找得到。</p></div>
+        <div class="pain reveal"><span class="pain-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M8 7h6M8 11h6"/></svg></span><h3>客人資料散落各處</h3><p>上次的捲度、色號、膚況、過敏備註，要翻相簿才找得到。</p></div>
       </div>
-      <p class="bridge reveal">交給店小幫，<br><span>你只要專心把指甲和睫毛做漂亮。</span></p>
+      <p class="bridge reveal">交給店小幫，<br><span>你只要專心服務眼前的客人。</span></p>
     </div>
   </section>
 
@@ -397,19 +411,19 @@ footer { padding-block: 40px 56px; color: var(--muted); font-size: 14px; }
       <div class="sec-head">
         <p class="eyebrow">模組</p>
         <h2>需要什麼，就加什麼</h2>
-        <p>每個模組都為一種行業量身設計。先從美甲美睫開始，更多行業陸續推出。</p>
+        <p>先從美業小店開始：美甲、美睫、做臉、除毛、美體按摩、霧眉共用同一套預約模組，分類可以自己設定。更多行業陸續推出。</p>
       </div>
       <div class="modules">
         <article class="mod mod-nail">
           <span class="mod-tag">現正供應</span>
-          <h3>美甲美睫預約</h3>
-          <p>LINE 預約、線上訂金、自動提醒、客人紀錄與營收報表，一次到位。</p>
+          <h3>美業小店預約</h3>
+          <p>LINE 預約、線上訂金、自動提醒、客人紀錄與營收報表，一次到位。服務分類與紀錄欄位依你的店設定。</p>
           <a href="#nail">看看功能 →</a>
         </article>
         <article class="mod mod-soon">
           <span class="mod-tag">即將推出</span>
           <h3>更多行業的預約</h3>
-          <p>美髮、按摩、寵物美容、課程教室……一樣在 LINE 上預約、收訂金。</p>
+          <p>美髮、寵物美容、課程教室……一樣在 LINE 上預約、收訂金。</p>
           <a href="#contact">想搶先用？告訴我們 →</a>
         </article>
         <article class="mod mod-next">
@@ -422,10 +436,32 @@ footer { padding-block: 40px 56px; color: var(--muted); font-size: 14px; }
     </div>
   </section>
 
+  <section id="industries" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">適用行業</p>
+        <h2>美業小店，都能用同一套</h2>
+        <p>開店時選一個行業範本當起點，再依你的店調整。</p>
+      </div>
+      <div class="inds-box reveal">
+        <ul class="inds" aria-label="適用行業">
+          <li>美甲</li>
+          <li>美睫</li>
+          <li>做臉</li>
+          <li>除毛</li>
+          <li>美體按摩</li>
+          <li>霧眉<small>（紋繡）</small></li>
+        </ul>
+        <p class="inds-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>分類與客人紀錄欄位可自行設定，不用的就不開。</p>
+        <p class="inds-sub">只做其中一種也可以；沒有列到的服務，自己新增分類就好。</p>
+      </div>
+    </div>
+  </section>
+
   <section id="nail" class="feature">
     <div class="wrap">
       <div class="sec-head center-head">
-        <p class="eyebrow">模組・美甲美睫預約</p>
+        <p class="eyebrow">模組・美業小店預約</p>
         <h2>從客人預約，到月底看營收</h2>
         <p>每一步，店小幫都幫你處理好。</p>
       </div>
@@ -435,7 +471,7 @@ footer { padding-block: 40px 56px; color: var(--muted); font-size: 14px; }
           <div class="show-text">
             <p class="kick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>客人自己約，還先付訂金</p>
             <h3>LINE 直接預約，空檔不重複</h3>
-            <p>客人選服務、加購、指定設計師和時間就完成，只顯示還空著的時段。訂金先收好，爽約的損失少一大半。</p>
+            <p>客人選服務、加購、指定服務人員和時間就完成，只顯示還空著的時段。訂金先收好，爽約的損失少一大半。</p>
             <ul class="ticks">
               <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>只顯示空著的時段，不會重複預約</li>
               <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>轉帳到你的帳戶免手續費，也可接綠界刷卡</li>
@@ -461,21 +497,21 @@ footer { padding-block: 40px 56px; color: var(--muted); font-size: 14px; }
             <p>訂金還沒付、客人說已轉帳、做完還沒結帳，打開後台第一眼就看到，點一下直接處理。電腦上還能一次看完整週的預約。</p>
             <ul class="ticks">
               <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>待確認轉帳、待付訂金，不再漏掉</li>
-              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>多位設計師並排，排班一看就懂</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>多位服務人員並排，排班一看就懂</li>
               <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>手機、平板、電腦，版面自動調整</li>
             </ul>
           </div>
           <div class="show-vis">
-            <div class="cal" role="img" aria-label="多位設計師並排的預約日曆示意">
+            <div class="cal" role="img" aria-label="多位服務人員並排的預約日曆示意">
               <div class="cal-top"><span class="tag wait">待確認轉帳 2</span><span class="tag go">待付訂金 1</span><span class="tag ok">今天 5 位</span></div>
               <div class="cal-grid">
                 <span></span><span class="h">Amy</span><span class="h">Bella</span><span class="h">Cathy</span>
                 <span class="t" style="grid-row:2">10:00</span><span class="t" style="grid-row:4">12:00</span><span class="t" style="grid-row:6">14:00</span>
                 <div class="b c1" style="grid-column:2;grid-row:2/4">王小美<small>單根嫁接</small></div>
                 <div class="b c2" style="grid-column:3;grid-row:3/5">林佳蓉<small>單色凝膠</small></div>
-                <div class="b c3" style="grid-column:4;grid-row:2/3">周欣怡<small>卸睫</small></div>
-                <div class="b c4" style="grid-column:2;grid-row:5/7">陳怡君<small>手足護理</small></div>
-                <div class="b c1" style="grid-column:4;grid-row:4/7">黃雅雯<small>濃密睫毛</small></div>
+                <div class="b c3" style="grid-column:4;grid-row:2/3">周欣怡<small>腋下除毛</small></div>
+                <div class="b c4" style="grid-column:2;grid-row:5/7">陳怡君<small>霧眉補色</small></div>
+                <div class="b c1" style="grid-column:4;grid-row:4/7">黃雅雯<small>深層清潔做臉</small></div>
               </div>
             </div>
           </div>
@@ -485,7 +521,7 @@ footer { padding-block: 40px 56px; color: var(--muted); font-size: 14px; }
           <div class="show-text">
             <p class="kick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 2l4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></svg>時間到了，自動叫客人回來<span class="badge-new">新功能</span></p>
             <h3>回訪提醒，帶回頭客</h3>
-            <p>補睫、卸甲的時間到了，自動用 LINE 提醒客人預約下一次。提醒了幾位、幾位回來、回訪率多少，一目了然。</p>
+            <p>補睫、卸甲、做臉療程或霧眉補色的時間到了，自動用 LINE 提醒客人預約下一次。提醒了幾位、幾位回來、回訪率多少，一目了然。</p>
             <ul class="ticks">
               <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>每個服務各自設定幾天後提醒</li>
               <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>訊息內容自己改，帶上客人名字</li>
@@ -494,8 +530,8 @@ footer { padding-block: 40px 56px; color: var(--muted); font-size: 14px; }
           </div>
           <div class="show-vis">
             <div class="chat" role="img" aria-label="LINE 回訪提醒訊息示意與回訪統計">
-              <div class="chat-h"><span class="scr-logo">花</span>小花美甲美睫</div>
-              <div class="bub"><b>【小花美甲美睫】</b>佳蓉，上次的美睫已經 3 週囉～要不要順手補一下？<br>預約下一次：</div>
+              <div class="chat-h"><span class="scr-logo">花</span>小花美學工作室</div>
+              <div class="bub"><b>【小花美學工作室】</b>佳蓉，上次的美睫已經 3 週囉～要不要順手補一下？<br>預約下一次：</div>
               <div class="bub-btn">立即預約</div>
               <div class="stat3"><div><strong>24</strong><small>已提醒</small></div><div><strong>9</strong><small>回來預約</small></div><div><strong>38%</strong><small>回訪率</small></div></div>
             </div>
@@ -505,10 +541,10 @@ footer { padding-block: 40px 56px; color: var(--muted); font-size: 14px; }
       </div>
 
       <div class="minis">
-        <div class="mini reveal"><span class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21a2 2 0 0 0 4 0"/></svg></span><h3>自動通知與提醒</h3><p>預約成功、前一天提醒都自動發到客人的 LINE，設計師也會收到新預約通知。</p></div>
-        <div class="mini reveal"><span class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M8 7h6M8 11h6"/></svg></span><h3>客人紀錄與同意書</h3><p>上次的捲度、色號、作品照片、過敏備註都記著，還能請客人在手機上簽電子同意書。</p></div>
+        <div class="mini reveal"><span class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21a2 2 0 0 0 4 0"/></svg></span><h3>自動通知與提醒</h3><p>預約成功、前一天提醒都自動發到客人的 LINE，服務人員也會收到新預約通知。</p></div>
+        <div class="mini reveal"><span class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M8 7h6M8 11h6"/></svg></span><h3>客人紀錄與同意書</h3><p>捲度、色號、膚況、作品照片、過敏備註都記著，欄位依你的服務自己設定，還能請客人在手機上簽電子同意書。</p></div>
         <div class="mini reveal"><span class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9a3 3 0 0 0 0 6v3a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3a3 3 0 0 0 0-6V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2z"/><path d="M13 5v2M13 11v2M13 17v2"/></svg></span><h3>優惠券與生日禮</h3><p>新客折扣、節日優惠直接顯示在預約頁，壽星還會自動收到生日券。</p></div>
-        <div class="mini reveal"><span class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span><h3>營收一眼看懂</h3><p>本月營收、設計師業績、熱門服務自動統計，不用再翻聊天紀錄對帳。</p></div>
+        <div class="mini reveal"><span class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span><h3>營收一眼看懂</h3><p>本月營收、服務人員業績、熱門服務自動統計，不用再翻聊天紀錄對帳。</p></div>
       </div>
 
       <div class="feat-cta">
@@ -539,14 +575,14 @@ footer { padding-block: 40px 56px; color: var(--muted); font-size: 14px; }
         <h2>月繳或年繳，不綁約</h2>
         <p>每個模組各自計價。年繳只收 10 個月，等於送你 2 個月。</p>
       </div>
-      <p class="price-mod"><i></i>美甲美睫預約</p>
+      <p class="price-mod"><i></i>美業小店預約</p>
       <div class="prices">
         <div class="price">
           <h3>個人工作室</h3>
           <p class="price-v">$590<small> ／月</small></p>
           <p class="price-year">年繳 $5,900，省 $1,180</p>
           <ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>1 位設計師</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>1 位服務人員</li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>所有功能都能用</li>
           </ul>
         </div>
@@ -555,7 +591,7 @@ footer { padding-block: 40px 56px; color: var(--muted); font-size: 14px; }
           <p class="price-v">$990<small> ／月</small></p>
           <p class="price-year">年繳 $9,900，省 $1,980</p>
           <ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>最多 5 位設計師</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>最多 5 位服務人員</li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>所有功能都能用</li>
           </ul>
         </div>
@@ -572,13 +608,14 @@ footer { padding-block: 40px 56px; color: var(--muted); font-size: 14px; }
         <h2>開始之前，你可能想知道</h2>
       </div>
       <div class="faq">
+        <details><summary>我的店不是做美甲美睫，也能用嗎？</summary><p>可以。目前適用美甲、美睫、做臉、除毛、美體按摩、霧眉（紋繡），開店時可以選行業範本當起點，服務分類和客人紀錄欄位都能自己改，不用的就不開；沒有列到的服務，也可以自己新增分類。各行業用的是同一套預約、訂金、提醒與客人紀錄功能。</p></details>
         <details><summary>客人需要下載 App 或註冊嗎？</summary><p>不用。客人在你的 LINE 官方帳號點「立即預約」就能約，用的是他本來的 LINE 帳號。</p></details>
         <details><summary>我還沒有 LINE 官方帳號，可以用嗎？</summary><p>可以。開官方帳號是免費的，我們會在設定時陪你一起開好。</p></details>
         <details><summary>LINE 訊息要另外付費嗎？</summary><p>LINE 官方帳號的免費方案每月有 200 則訊息。每筆預約大約會用到 3 則通知，預約量大的店可能需要升級 LINE 的付費方案，這筆費用由 LINE 向店家收取。</p></details>
         <details><summary>訂金的錢會先經過你們嗎？</summary><p>不會。你可以讓客人直接轉帳到你自己的銀行帳戶，或是接上你自己的綠界帳戶，錢都直接進你的口袋。不想收訂金也可以關掉。</p></details>
         <details><summary>要怎麼繳費？</summary><p>在管理主控台選好方案，系統會給你一組 ATM 轉帳帳號或超商繳費代碼，繳完幾分鐘內自動開通，不用綁信用卡。</p></details>
         <details><summary>忘記繳費會怎樣？</summary><p>到期前 7 天、3 天和當天，系統都會用 LINE 提醒你。到期後還有 5 天可以補繳，超過才會暫停線上預約，資料都會保留，繳費後立刻恢復。</p></details>
-        <details><summary>可以用電腦或平板管理嗎？</summary><p>可以。後台在手機、平板、電腦上都能用，版面會自動調整。設計師各自用自己的 LINE 登入，只看得到自己的預約。</p></details>
+        <details><summary>可以用電腦或平板管理嗎？</summary><p>可以。後台在手機、平板、電腦上都能用，版面會自動調整。服務人員各自用自己的 LINE 登入，只看得到自己的預約。</p></details>
         <details><summary>可以隨時取消嗎？</summary><p>可以。沒有綁約，也不會自動扣款，不想用了只要不再繳費就好。</p></details>
       </div>
     </div>
